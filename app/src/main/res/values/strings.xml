@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">AcademyFundamentalsProject</string>
+    <string name="main_query">Hello Yandex!</string>
+    <string name="main_question">В чём смысл жизни?</string>
 </resources>

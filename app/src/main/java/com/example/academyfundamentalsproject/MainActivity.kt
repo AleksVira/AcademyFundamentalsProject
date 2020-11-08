@@ -49,8 +49,7 @@ class MainActivity : AppCompatActivity() {
         val r = java.util.Random().nextInt(255)
         val g = java.util.Random().nextInt(255)
         val b = java.util.Random().nextInt(255)
-        val rgb = Color.rgb(r, g, b)
-        return rgb
+        return Color.rgb(r, g, b)
     }
 
     private fun sendMessageToNewActivity(student: Student) {

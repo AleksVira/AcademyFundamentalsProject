@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="MovieRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="colorControlNormal">@color/rating_background</item>
+        <item name="colorControlActivated">@color/rating_fill</item>
+    </style>
+</resources>

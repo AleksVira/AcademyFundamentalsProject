@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">AcademyFundamentalsProject</string>
+    <string name="storyline">Storyline</string>
+    <string name="cast">Cast</string>
+    <string name="back">Back</string>
+
+    <string name="tmp_text_1">Avengers:\nEnd Game</string>
+    <string name="tmp_text_2">Action, Adventure, Fantasy</string>
+    <string name="tmp_text_3">125 Reviews</string>
+    <string name="tmp_text_4">After the devastating events of Avengers: Infinity War, the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos\' actions and restore balance to the universe.</string>
+    <string name="tmp_text_5">13+</string>
+    <string name="tmp_name_1">Robert\nDowney Jr.</string>
+    <string name="tmp_name_2">Chris Evans</string>
+    <string name="tmp_name_3">Mark Ruffalo</string>
+    <string name="tmp_name_4">Chris Hemsworth</string>
 </resources>

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="half_x_size">4dp</dimen>
-    <dimen name="x_size">8dp</dimen>
+    <dimen name="size_x">8dp</dimen>
     <dimen name="size_2x">16dp</dimen>
+    <dimen name="size_3x">24dp</dimen>
+    <dimen name="back_label_top_margin">8dp</dimen>
 </resources>

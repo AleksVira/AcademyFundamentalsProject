@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="MovieRatingBar" parent="@android:style/Widget.RatingBar">
         <item name="colorControlNormal">@color/rating_background</item>
         <item name="colorControlActivated">@color/rating_fill</item>
     </style>
+
+    <style name="ShapeAppearanceOverlay.CornerSize4dp" parent="">
+        <item name="cornerSize">4dp</item>
+    </style>
+
+    <style name="actor_cast">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/size_x</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:fontFamily">@font/roboto_black</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:textColor">@color/grayText</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
 </resources>

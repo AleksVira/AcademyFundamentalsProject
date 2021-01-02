@@ -10,6 +10,11 @@
         <item name="cornerSize">4dp</item>
     </style>
 
+    <style name="ShapeAppearanceOverlay.ItemTopCornerSize8dp" parent="">
+        <item name="cornerSizeTopLeft">8dp</item>
+        <item name="cornerSizeTopRight">8dp</item>
+    </style>
+
     <style name="actor_cast">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
@@ -19,6 +24,18 @@
         <item name="android:maxLines">2</item>
         <item name="android:textColor">@color/grayText</item>
         <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="CustomRatingBar" parent="@style/Widget.AppCompat.RatingBar.Small">
+        <item name="android:numStars">5</item>
+        <item name="android:rating">3.5</item>
+        <item name="android:stepSize">0.5</item>
+        <item name="android:minHeight">10dp</item>
+        <item name="android:maxHeight">10dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">4dp</item>
+        <item name="android:layout_marginTop">4dp</item>
     </style>
 
 </resources>

@@ -32,10 +32,12 @@
             app:layout_constraintTop_toTopOf="@+id/horizontalGuideline1" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/backMarker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:alpha="0.5"
             android:fontFamily="@font/roboto_light"
+            android:paddingVertical="@dimen/half_x_size"
             android:paddingHorizontal="@dimen/half_x_size"
             android:text="@string/back"
             android:textColor="@color/white"
@@ -60,7 +62,7 @@
             android:textSize="12sp"
             app:layout_constraintBottom_toTopOf="@+id/horizontalGuideline2"
             app:layout_constraintStart_toStartOf="parent"
-            tools:text="13+" />
+            tools:text="1+" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/movieName"
@@ -91,18 +93,18 @@
             android:id="@+id/movieRating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:starSize="15dp"
-            app:numberOfStars="5"
             app:emptyStarImage="@drawable/ic_star_icon_empty"
-            app:quarterFilledStarImage="@drawable/ic_star_icon_1_4"
+            app:fullFilledStarImage="@drawable/ic_star_icon_filled"
             app:halfFilledStarImage="@drawable/ic_star_icon_1_2"
             app:threeQuarterFilledStarImage="@drawable/ic_star_icon_3_4"
-            app:fullFilledStarImage="@drawable/ic_star_icon_filled"
-            app:startRating="50"
-
-            android:layout_marginTop="10dp"
+            app:quarterFilledStarImage="@drawable/ic_star_icon_1_4"
+            app:numberOfStars="5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tagline" />
+            app:layout_constraintTop_toTopOf="@+id/reviewsCounter"
+            app:layout_constraintBottom_toBottomOf="@+id/reviewsCounter"
+            app:starSize="12dp"
+            app:startRating="15" />
+
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/reviewsCounter"

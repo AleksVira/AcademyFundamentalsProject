@@ -8,9 +8,11 @@ class MainActivity : AppCompatActivity(), MovieCardClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        supportFragmentManager.beginTransaction()
-            .add(R.id.fragmentHolder, FragmentMoviesList())
-            .commit()
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .add(R.id.fragmentHolder, FragmentMoviesList())
+                .commit()
+        }
     }
 
     override fun onMovieCardClicked() {

@@ -1,4 +1,4 @@
-package com.example.academyfundamentalsproject
+package com.example.academyfundamentalsproject.utils
 
 import android.content.Context
 import android.util.AttributeSet
@@ -8,7 +8,7 @@ import android.widget.LinearLayout
 import androidx.annotation.DrawableRes
 import androidx.core.view.children
 import androidx.core.view.forEachIndexed
-import timber.log.Timber
+import com.example.academyfundamentalsproject.R
 
 
 class CustomFiveStarsRating @JvmOverloads

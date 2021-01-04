@@ -1,4 +1,4 @@
-package com.example.academyfundamentalsproject
+package com.example.academyfundamentalsproject.main_list
 
 import android.content.Context
 import android.os.Bundle
@@ -7,9 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.academyfundamentalsproject.*
+import com.example.academyfundamentalsproject.data.MovieData
+import com.example.academyfundamentalsproject.data.MovieMockedData
 import com.example.academyfundamentalsproject.databinding.FragmentMoviesListBinding
+import com.example.academyfundamentalsproject.utils.MovieCardClickListener
+import com.example.academyfundamentalsproject.utils.MovieGridSpaceDecorator
+import timber.log.Timber
 
 class FragmentMoviesList : Fragment() {
 
@@ -26,11 +31,6 @@ class FragmentMoviesList : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentMoviesListBinding.inflate(inflater, container, false)
-
-        binding.root.setOnClickListener{
-            movieCardClickListener?.onMovieCardClicked()
-        }
-
         return binding.root
     }
 
@@ -43,10 +43,16 @@ class FragmentMoviesList : Fragment() {
     private fun initView() {
         binding.moviesListHeader.text = "Movies list"
         val recycler: RecyclerView = binding.moviesList
-        mainListAdapter = MainListAdapter()
+        mainListAdapter = MainListAdapter({ movieData ->
+            Timber.d("MyTAG_FragmentMoviesList_initView(): ${movieData.movieName} CARD clicked")
+            movieCardClickListener?.onMovieCardClicked(movieData)
+        }, { movieData: MovieData, view: View ->
+            Timber.d("MyTAG_FragmentMoviesList_initView(): ${movieData.movieName} clicked from ${view.javaClass.canonicalName}")
+        })
         recycler.layoutManager = GridLayoutManager(requireContext(), 2)
         recycler.adapter = mainListAdapter
-        recycler.addItemDecoration(MovieGridSpaceDecorator(spaceInPx = resources.getDimensionPixelSize(R.dimen.movie_grid_spacing)))
+        recycler.addItemDecoration(MovieGridSpaceDecorator(spaceInPx = resources.getDimensionPixelSize(
+            R.dimen.movie_grid_spacing)))
     }
 
     override fun onAttach(context: Context) {

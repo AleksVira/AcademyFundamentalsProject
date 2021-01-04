@@ -1,4 +1,4 @@
-package com.example.academyfundamentalsproject
+package com.example.academyfundamentalsproject.utils
 
 import android.graphics.Rect
 import android.view.View

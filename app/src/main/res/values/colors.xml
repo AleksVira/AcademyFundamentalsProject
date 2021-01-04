@@ -13,6 +13,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="movie_white">#FFECECEC</color>
     <color name="dark_grey">#FF565656</color>
+    <color name="like_color">#FFFF4D79</color>
 
     <color name="movies_detail_background">#FF191926</color>
 

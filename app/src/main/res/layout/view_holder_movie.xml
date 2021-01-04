@@ -95,7 +95,7 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:text="Avengers: End Game" />
 
-    <com.example.academyfundamentalsproject.CustomFiveStarsRating
+    <com.example.academyfundamentalsproject.utils.CustomFiveStarsRating
         android:id="@+id/item_movie_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

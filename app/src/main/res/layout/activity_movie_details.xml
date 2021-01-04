@@ -87,7 +87,7 @@
             app:layout_constraintTop_toBottomOf="@+id/movieName"
             tools:text="Action, Adventure, Fantasy" />
 
-        <com.example.academyfundamentalsproject.CustomFiveStarsRating
+        <com.example.academyfundamentalsproject.utils.CustomFiveStarsRating
             android:id="@+id/movieRating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

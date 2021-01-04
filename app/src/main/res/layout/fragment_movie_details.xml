@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".MovieDetailsActivity">
+    >
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,24 +15,24 @@
         android:padding="@dimen/size_2x">
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/horizontalGuideline1"
+            android:id="@+id/horizontal_guideline_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="@dimen/back_label_top_margin" />
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/arrowBack"
+            android:id="@+id/arrow_back"
             android:layout_width="14dp"
             android:layout_height="18dp"
             android:padding="@dimen/half_x_size"
             android:src="@drawable/ic_arrow_back"
             android:translationX="-4dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/horizontalGuideline1" />
+            app:layout_constraintTop_toTopOf="@+id/horizontal_guideline_1" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/backMarker"
+            android:id="@+id/back_marker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:alpha="0.5"
@@ -42,30 +42,30 @@
             android:text="@string/back"
             android:textColor="@color/white"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@+id/arrowBack"
-            app:layout_constraintStart_toEndOf="@+id/arrowBack"
-            app:layout_constraintTop_toTopOf="@+id/arrowBack" />
+            app:layout_constraintBottom_toBottomOf="@+id/arrow_back"
+            app:layout_constraintStart_toEndOf="@+id/arrow_back"
+            app:layout_constraintTop_toTopOf="@+id/arrow_back" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/horizontalGuideline2"
+            android:id="@+id/horizontal_guideline_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.30" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/ageCategory"
+            android:id="@+id/age_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_black"
             android:textColor="@color/white"
             android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/horizontalGuideline2"
+            app:layout_constraintBottom_toTopOf="@+id/horizontal_guideline_2"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="1+" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/movieName"
+            android:id="@+id/movie_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
@@ -74,7 +74,7 @@
             android:textColor="@color/white"
             android:textSize="40sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/horizontalGuideline2"
+            app:layout_constraintTop_toBottomOf="@+id/horizontal_guideline_2"
             tools:text="Avengers:\nEnd Game" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -86,11 +86,11 @@
             android:textColor="@color/taglineText"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/movieName"
+            app:layout_constraintTop_toBottomOf="@+id/movie_name"
             tools:text="Action, Adventure, Fantasy" />
 
-        <com.example.academyfundamentalsproject.CustomFiveStarsRating
-            android:id="@+id/movieRating"
+        <com.example.academyfundamentalsproject.utils.CustomFiveStarsRating
+            android:id="@+id/movie_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:emptyStarImage="@drawable/ic_star_icon_empty"
@@ -100,14 +100,14 @@
             app:quarterFilledStarImage="@drawable/ic_star_icon_1_4"
             app:numberOfStars="5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/reviewsCounter"
-            app:layout_constraintBottom_toBottomOf="@+id/reviewsCounter"
+            app:layout_constraintTop_toTopOf="@+id/reviews_counter"
+            app:layout_constraintBottom_toBottomOf="@+id/reviews_counter"
             app:starSize="12dp"
             app:startRating="15" />
 
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/reviewsCounter"
+            android:id="@+id/reviews_counter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/size_x"
@@ -115,12 +115,12 @@
             android:fontFamily="@font/roboto_black"
             android:textColor="@color/rating_background"
             android:textSize="14sp"
-            app:layout_constraintStart_toEndOf="@+id/movieRating"
+            app:layout_constraintStart_toEndOf="@+id/movie_rating"
             app:layout_constraintTop_toBottomOf="@+id/tagline"
             tools:text="125 Reviews" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/storylineTitle"
+            android:id="@+id/storyline_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size_3x"
@@ -129,7 +129,7 @@
             android:textColor="#FFECECEC"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/reviewsCounter" />
+            app:layout_constraintTop_toBottomOf="@+id/reviews_counter" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/storylineContent"
@@ -142,7 +142,7 @@
             android:textColor="@color/white"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/storylineTitle"
+            app:layout_constraintTop_toBottomOf="@+id/storyline_title"
             tools:text="@string/tmp_text_4" />
 
 

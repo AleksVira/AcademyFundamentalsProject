@@ -1,11 +1,17 @@
-package com.example.academyfundamentalsproject
+package com.example.academyfundamentalsproject.main_list
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.academyfundamentalsproject.data.MovieData
+import com.example.academyfundamentalsproject.main_list.MovieViewHolder
 import com.example.academyfundamentalsproject.databinding.ViewHolderMovieBinding
 
-class MainListAdapter : RecyclerView.Adapter<MovieViewHolder>() {
+class MainListAdapter(
+    private val movieCardClickListener: (MovieData) -> Unit,
+    private val onFavoriteClick: (MovieData, View) -> Unit
+) : RecyclerView.Adapter<MovieViewHolder>() {
 
     var movies: List<MovieData> = listOf()
         set(value) {
@@ -16,7 +22,7 @@ class MainListAdapter : RecyclerView.Adapter<MovieViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val binding =
             ViewHolderMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MovieViewHolder(binding)
+        return MovieViewHolder(binding, onFavoriteClick, movieCardClickListener)
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {

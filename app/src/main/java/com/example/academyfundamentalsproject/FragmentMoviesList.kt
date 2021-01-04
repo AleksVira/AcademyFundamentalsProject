@@ -6,41 +6,47 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.academyfundamentalsproject.databinding.FragmentMoviesListBinding
 
 class FragmentMoviesList : Fragment() {
 
     private var movieCardClickListener: MovieCardClickListener? = null
+    private lateinit var mainListAdapter: MainListAdapter
 
-    private var _viewBinding: FragmentMoviesListBinding? = null
-    private val viewBinding get() = _viewBinding!!
+
+    private var _binding: FragmentMoviesListBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        _viewBinding = FragmentMoviesListBinding.inflate(inflater, container, false)
+        _binding = FragmentMoviesListBinding.inflate(inflater, container, false)
 
-        viewBinding.root.setOnClickListener{
+        binding.root.setOnClickListener{
             movieCardClickListener?.onMovieCardClicked()
         }
 
-        return viewBinding.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initView()
+        mainListAdapter.movies = MovieMockedData().getMovieData()
+    }
 
-        viewBinding.moviesListHeader.text = "Movies list"
-        with(viewBinding.movieCard) {
-            parentalGuidanceMark.text = getString(R.string.tmp_text_5)
-            movieName.text = getString(R.string.tmp_text_6)
-            lengthMin.text = getString(R.string.tmp_text_7)
-            itemMovieRating.setRating(40f)
-            reviewsCounter.text = getString(R.string.tmp_text_3)
-            itemTagline.text = getString(R.string.tmp_text_8)
-        }
+    private fun initView() {
+        binding.moviesListHeader.text = "Movies list"
+        val recycler: RecyclerView = binding.moviesList
+        mainListAdapter = MainListAdapter()
+        recycler.layoutManager = GridLayoutManager(requireContext(), 2)
+        recycler.adapter = mainListAdapter
+        recycler.addItemDecoration(MovieGridSpaceDecorator(spaceInPx = resources.getDimensionPixelSize(R.dimen.movie_grid_spacing)))
     }
 
     override fun onAttach(context: Context) {
@@ -57,9 +63,7 @@ class FragmentMoviesList : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _viewBinding = null
+        _binding = null
     }
-
-
 
 }

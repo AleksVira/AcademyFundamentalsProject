@@ -21,7 +21,6 @@ class FragmentMoviesList : Fragment() {
     private var movieCardClickListener: MovieCardClickListener? = null
     private lateinit var mainListAdapter: MainListAdapter
 
-
     private var _binding: FragmentMoviesListBinding? = null
     private val binding get() = _binding!!
 
@@ -51,7 +50,7 @@ class FragmentMoviesList : Fragment() {
         })
         recycler.layoutManager = GridLayoutManager(requireContext(), 2)
         recycler.adapter = mainListAdapter
-        recycler.addItemDecoration(MovieGridSpaceDecorator(spaceInPx = resources.getDimensionPixelSize(
+        recycler.addItemDecoration(MovieGridSpaceDecorator(space = resources.getDimensionPixelSize(
             R.dimen.movie_grid_spacing)))
     }
 

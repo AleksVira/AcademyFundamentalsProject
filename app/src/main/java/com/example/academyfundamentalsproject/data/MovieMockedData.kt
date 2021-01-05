@@ -22,6 +22,9 @@ class MovieMockedData {
             Actor("Zoe Saldana", "https://image.ibb.co/i9WRPy/Zoe_Saldana.jpg")
         )
 
+        private fun getSixRandomActors(): List<Actor> {
+            return actorsStaticList.shuffled().take(6)
+        }
 
         private val AVENGERS: MovieData = MovieData(
             parentalRating = 13,
@@ -35,10 +38,6 @@ class MovieMockedData {
             moviePicturesResource = R.drawable.card_movie_1,
             actorsList = getSixRandomActors()
         )
-
-        private fun getSixRandomActors(): List<Actor> {
-            return actorsStaticList.shuffled().take(6)
-        }
 
         private val TENET: MovieData = MovieData(
             parentalRating = 16,
@@ -78,8 +77,34 @@ class MovieMockedData {
             moviePicturesResource = R.drawable.card_movie_4,
             actorsList = getSixRandomActors()
         )
+
+        private val LORD_OF_WAR: MovieData = MovieData(
+            parentalRating = 16,
+            isLiked = true,
+            genre = "Action, Crime, Drama",
+            ratingPercent = 63f,
+            reviewsCount = 152,
+            movieName = "Lord of War",
+            movieLengthMinutes = 121,
+            movieDescription = "Lord of War is a 2005 American crime drama film written, produced, and directed by Andrew Niccol, and co-produced by and starring Nicolas Cage. ... Cage plays an illegal arms dealer, inspired by the stories of several real-life arms dealers and smugglers.",
+            moviePicturesResource = R.drawable.card_movie_5,
+            actorsList = getSixRandomActors()
+        )
+
+        private val LEGION: MovieData = MovieData(
+            parentalRating = 16,
+            isLiked = false,
+            genre = "Action, Fantasy, Horror",
+            ratingPercent = 53f,
+            reviewsCount = 98,
+            movieName = "Legion",
+            movieLengthMinutes = 100,
+            movieDescription = "Legion is a 2010 American action horror film directed by Scott Stewart and co-written by Stewart and Peter Schink. The cast includes Paul Bettany, Lucas Black, Tyrese Gibson, Adrianne Palicki, Kate Walsh, and Dennis Quaid. Sony Pictures Worldwide Acquisitions Group acquired most of this film's worldwide distribution rights, and the group opened this film in North America theatrically on January 22, 2010, through Screen Gems.",
+            moviePicturesResource = R.drawable.card_movie_6,
+            actorsList = getSixRandomActors()
+        )
     }
 
-    fun getMovieData(): List<MovieData> = listOf(AVENGERS, TENET, BLACK_WIDOW, WONDER_WOMAN_1984)
+    fun getMovieData(): List<MovieData> = listOf(AVENGERS, TENET, BLACK_WIDOW, WONDER_WOMAN_1984, LORD_OF_WAR, LEGION)
 
 }

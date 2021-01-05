@@ -5,17 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.academyfundamentalsproject.R
 import com.example.academyfundamentalsproject.data.MovieData
 import com.example.academyfundamentalsproject.databinding.FragmentMovieDetailsBinding
+import com.example.academyfundamentalsproject.utils.ActorsListSpaceDecorator
 import timber.log.Timber
 
 class FragmentMoviesDetails : Fragment() {
 
-    private var _viewBinding: FragmentMovieDetailsBinding? = null
-    private val viewBinding get() = _viewBinding!!
+    private var _detailBinding: FragmentMovieDetailsBinding? = null
+    private val detailBinding get() = _detailBinding!!
 
     private lateinit var movieData: MovieData
+    private lateinit var actorsListAdapter: ActorsListAdapter
 
 
     companion object {
@@ -43,37 +47,39 @@ class FragmentMoviesDetails : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        _viewBinding = FragmentMovieDetailsBinding.inflate(inflater, container, false)
-        return viewBinding.root
+        _detailBinding = FragmentMovieDetailsBinding.inflate(inflater, container, false)
+        return detailBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        with(viewBinding) {
-            ageCategory.text = requireContext().getString(R.string.plus_sign, movieData.parentalRating.toString())
+        with(detailBinding) {
+            ageCategory.text =
+                requireContext().getString(R.string.plus_sign, movieData.parentalRating.toString())
             movieName.text = movieData.movieName
             tagline.text = movieData.genre
             movieRating.setRating(movieData.ratingPercent)
-            reviewsCounter.text = getString(R.string.reviews_counter, movieData.reviewsCount.toString())
+            reviewsCounter.text =
+                getString(R.string.reviews_counter, movieData.reviewsCount.toString())
             storylineTitle.text = requireContext().getString(R.string.storyline)
             storylineContent.text = movieData.movieDescription
 
-
-
-            movieCast1.text = getString(R.string.tmp_name_1)
-            movieCast2.text = getString(R.string.tmp_name_2)
-            movieCast3.text = getString(R.string.tmp_name_3)
-            movieCast4.text = getString(R.string.tmp_name_4)
-
-
-/*
-            itemMoviePicture.setBackgroundResource(movieData.moviePicturesResource)
-*/
-
+            initActorsList()
+            actorsListAdapter.actors = movieData.actorsList
 
             backMarker.setOnClickListener { onBackPressed() }
             arrowBack.setOnClickListener { onBackPressed() }
         }
+    }
+
+    private fun initActorsList() {
+
+        val recycler: RecyclerView = detailBinding.actorsList
+        actorsListAdapter = ActorsListAdapter()
+        recycler.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        recycler.adapter = actorsListAdapter
+        recycler.addItemDecoration(ActorsListSpaceDecorator(space = resources.getDimensionPixelSize(
+            R.dimen.actors_list_spacing)))
     }
 
     private fun onBackPressed() {
@@ -82,6 +88,6 @@ class FragmentMoviesDetails : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _viewBinding = null
+        _detailBinding = null
     }
 }

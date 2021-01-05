@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    >
+    android:fillViewport="true">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,8 +36,8 @@
             android:layout_height="wrap_content"
             android:alpha="0.5"
             android:fontFamily="@font/roboto_light"
-            android:paddingVertical="@dimen/half_x_size"
             android:paddingHorizontal="@dimen/half_x_size"
+            android:paddingVertical="@dimen/half_x_size"
             android:text="@string/back"
             android:textColor="@color/white"
             android:textSize="12sp"
@@ -96,14 +95,14 @@
             app:emptyStarImage="@drawable/ic_star_icon_empty"
             app:fullFilledStarImage="@drawable/ic_star_icon_filled"
             app:halfFilledStarImage="@drawable/ic_star_icon_1_2"
-            app:threeQuarterFilledStarImage="@drawable/ic_star_icon_3_4"
-            app:quarterFilledStarImage="@drawable/ic_star_icon_1_4"
-            app:numberOfStars="5"
+            app:layout_constraintBottom_toBottomOf="@+id/reviews_counter"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/reviews_counter"
-            app:layout_constraintBottom_toBottomOf="@+id/reviews_counter"
+            app:numberOfStars="5"
+            app:quarterFilledStarImage="@drawable/ic_star_icon_1_4"
             app:starSize="12dp"
-            app:startRating="15" />
+            app:startRating="15"
+            app:threeQuarterFilledStarImage="@drawable/ic_star_icon_3_4" />
 
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -147,7 +146,7 @@
 
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/castTitle"
+            android:id="@+id/cast_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/size_3x"
@@ -158,95 +157,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/storylineContent" />
 
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/moviePicture1"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="@dimen/size_x"
-            android:scaleType="centerCrop"
-            android:src="@drawable/movie_1"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@+id/moviePicture2"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/castTitle"
-            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.CornerSize4dp" />
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/moviePicture2"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="@dimen/size_x"
-            android:scaleType="fitXY"
-            android:src="@drawable/movie_2"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@+id/moviePicture3"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/moviePicture1"
-            app:layout_constraintTop_toTopOf="@+id/moviePicture1"
-            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.CornerSize4dp" />
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/moviePicture3"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="@dimen/size_x"
-            android:scaleType="fitXY"
-            android:src="@drawable/movie_3"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@+id/moviePicture4"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/moviePicture2"
-            app:layout_constraintTop_toTopOf="@+id/moviePicture1"
-            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.CornerSize4dp" />
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/moviePicture4"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="@dimen/size_x"
-            android:scaleType="fitXY"
-            android:src="@drawable/movie_4"
-            app:layout_constraintDimensionRatio="1:1"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/actors_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/moviePicture3"
-            app:layout_constraintTop_toTopOf="@+id/moviePicture1"
-            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.CornerSize4dp" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/movieCast1"
-            style="@style/actor_cast"
-            app:layout_constraintEnd_toEndOf="@+id/moviePicture1"
-            app:layout_constraintStart_toStartOf="@+id/moviePicture1"
-            app:layout_constraintTop_toBottomOf="@+id/moviePicture1"
-            tools:text="@string/tmp_name_1" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/movieCast2"
-            style="@style/actor_cast"
-            app:layout_constraintEnd_toEndOf="@+id/moviePicture2"
-            app:layout_constraintStart_toStartOf="@+id/moviePicture2"
-            app:layout_constraintTop_toBottomOf="@+id/moviePicture2"
-            tools:text="@string/tmp_name_2" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/movieCast3"
-            style="@style/actor_cast"
-            app:layout_constraintEnd_toEndOf="@+id/moviePicture3"
-            app:layout_constraintStart_toStartOf="@+id/moviePicture3"
-            app:layout_constraintTop_toBottomOf="@+id/moviePicture3"
-            tools:text="@string/tmp_name_3" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/movieCast4"
-            style="@style/actor_cast"
-            app:layout_constraintEnd_toEndOf="@+id/moviePicture4"
-            app:layout_constraintStart_toStartOf="@+id/moviePicture4"
-            app:layout_constraintTop_toBottomOf="@+id/moviePicture4"
-            tools:text="@string/tmp_name_4" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cast_title"
+            tools:itemCount="4"
+            tools:listitem="@layout/view_holder_actor" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

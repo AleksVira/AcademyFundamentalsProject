@@ -9,8 +9,8 @@ import com.example.academyfundamentalsproject.main_list.MovieViewHolder
 import com.example.academyfundamentalsproject.databinding.ViewHolderMovieBinding
 
 class MainListAdapter(
-    private val movieCardClickListener: (MovieData) -> Unit,
-    private val onFavoriteClick: (MovieData, View) -> Unit
+    private val movieCardClickListener: (Int) -> Unit,
+    private val onFavoriteClick: (Int, View) -> Unit
 ) : RecyclerView.Adapter<MovieViewHolder>() {
 
     var movies: List<MovieData> = listOf()
@@ -18,6 +18,7 @@ class MainListAdapter(
             field = value
             notifyDataSetChanged()
         }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val binding =

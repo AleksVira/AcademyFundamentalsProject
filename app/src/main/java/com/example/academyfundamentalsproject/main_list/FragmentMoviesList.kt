@@ -42,11 +42,11 @@ class FragmentMoviesList : Fragment() {
     private fun initView() {
         binding.moviesListHeader.text = "Movies list"
         val recycler: RecyclerView = binding.moviesList
-        mainListAdapter = MainListAdapter({ movieData ->
-            Timber.d("MyTAG_FragmentMoviesList_initView(): ${movieData.movieName} CARD clicked")
-            movieCardClickListener?.onMovieCardClicked(movieData)
-        }, { movieData: MovieData, view: View ->
-            Timber.d("MyTAG_FragmentMoviesList_initView(): ${movieData.movieName} clicked from ${view.javaClass.canonicalName}")
+        mainListAdapter = MainListAdapter({ adapterIndex ->
+            Timber.d("MyTAG_FragmentMoviesList_initView(): $adapterIndex, ${mainListAdapter.movies[adapterIndex].movieName} CARD clicked")
+            movieCardClickListener?.onMovieCardClicked(mainListAdapter.movies[adapterIndex])
+        }, { adapterIndex: Int, view: View ->
+            Timber.d("MyTAG_FragmentMoviesList_initView(): ${mainListAdapter.movies[adapterIndex].movieName} clicked from ${view.javaClass.canonicalName}")
         })
         recycler.layoutManager = GridLayoutManager(requireContext(), 2)
         recycler.adapter = mainListAdapter

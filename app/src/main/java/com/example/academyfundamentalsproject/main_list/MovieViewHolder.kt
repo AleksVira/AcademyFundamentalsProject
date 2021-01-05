@@ -6,11 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.academyfundamentalsproject.R
 import com.example.academyfundamentalsproject.data.MovieData
 import com.example.academyfundamentalsproject.databinding.ViewHolderMovieBinding
+import timber.log.Timber
 
 class MovieViewHolder(
     private val movieBinding: ViewHolderMovieBinding,
-    private val onFavoriteClick: (MovieData, View) -> Unit,
-    private val movieCardClickListener: (MovieData) -> Unit,
+    private val onFavoriteClick: (Int, View) -> Unit,
+    private val movieCardClickListener: (Int) -> Unit,
 ) : RecyclerView.ViewHolder(movieBinding.root) {
 
     fun bindMovie(movieData: MovieData) {
@@ -31,10 +32,11 @@ class MovieViewHolder(
             movieLike.setOnClickListener { view ->
                 movieData.isLiked = !movieData.isLiked
                 setFavouriteState(movieData.isLiked)
-                onFavoriteClick.invoke(movieData, view)
+                onFavoriteClick.invoke(adapterPosition, view)
             }
             root.setOnClickListener { _ ->
-                movieCardClickListener.invoke(movieData)
+                Timber.d("MyTAG_MovieViewHolder_bindMovie(): POSITION = $adapterPosition")
+                movieCardClickListener.invoke(adapterPosition)
             }
         }
     }

@@ -3,12 +3,12 @@ package com.example.academyfundamentalsproject.movie_detail
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.academyfundamentalsproject.data.Actor
+import com.example.academyfundamentalsproject.data.ActorData
 import com.example.academyfundamentalsproject.databinding.ViewHolderActorBinding
 
 class ActorsListAdapter : RecyclerView.Adapter<ActorViewHolder>() {
 
-    var actors: List<Actor> = listOf()
+    var actors: List<ActorData> = listOf()
         set(value) {
             field = value
             notifyDataSetChanged()

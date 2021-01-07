@@ -2,33 +2,51 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/movie_detail_holder"
     android:layout_width="match_parent"
+    android:background="@color/movies_detail_background"
     android:layout_height="match_parent"
     android:fillViewport="true">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/main_background"
-        android:padding="@dimen/size_2x">
+        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/horizontal_guideline_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_begin="@dimen/back_label_top_margin" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/detail_backdrop"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            tools:src="@tools:sample/backgrounds/scenic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/detail_guideline" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/detail_shadow"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:src="@drawable/detail_mask"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/detail_guideline" />
+
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/arrow_back"
             android:layout_width="14dp"
             android:layout_height="18dp"
+            android:layout_marginStart="@dimen/size_2x"
+            android:layout_marginTop="@dimen/size_2x"
             android:padding="@dimen/half_x_size"
             android:src="@drawable/ic_arrow_back"
             android:translationX="-4dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/horizontal_guideline_1" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/back_marker"
@@ -46,20 +64,22 @@
             app:layout_constraintTop_toTopOf="@+id/arrow_back" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/horizontal_guideline_2"
+            android:id="@+id/detail_guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.30" />
+            app:layout_constraintGuide_percent="0.37" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/age_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size_2x"
             android:fontFamily="@font/roboto_black"
             android:textColor="@color/white"
             android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/horizontal_guideline_2"
+            app:layout_constraintBottom_toTopOf="@+id/detail_guideline"
+            android:layout_marginBottom="68dp"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="1+" />
 
@@ -67,19 +87,22 @@
             android:id="@+id/movie_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/size_2x"
             android:ellipsize="end"
             android:fontFamily="@font/roboto_black"
-            android:maxLines="2"
+            android:maxLines="4"
             android:textColor="@color/white"
             android:textSize="40sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/horizontal_guideline_2"
+            android:layout_marginTop="@dimen/size_2x"
+            app:layout_constraintTop_toBottomOf="@+id/age_category"
             tools:text="Avengers:\nEnd Game" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tagline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/size_2x"
             android:layout_marginTop="@dimen/half_x_size"
             android:fontFamily="@font/roboto_light"
             android:textColor="@color/taglineText"
@@ -92,6 +115,7 @@
             android:id="@+id/movie_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size_2x"
             app:emptyStarImage="@drawable/ic_star_icon_empty"
             app:fullFilledStarImage="@drawable/ic_star_icon_filled"
             app:halfFilledStarImage="@drawable/ic_star_icon_1_2"
@@ -107,13 +131,15 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/reviews_counter"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/size_x"
             android:layout_marginTop="@dimen/size_x"
+            android:layout_marginEnd="@dimen/size_2x"
             android:fontFamily="@font/roboto_black"
             android:textColor="@color/rating_background"
             android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/movie_rating"
             app:layout_constraintTop_toBottomOf="@+id/tagline"
             tools:text="125 Reviews" />
@@ -122,6 +148,7 @@
             android:id="@+id/storyline_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/size_2x"
             android:layout_marginTop="@dimen/size_3x"
             android:fontFamily="@font/roboto_black"
             android:text="@string/storyline"
@@ -131,9 +158,10 @@
             app:layout_constraintTop_toBottomOf="@+id/reviews_counter" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/storylineContent"
+            android:id="@+id/storyline_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/size_2x"
             android:layout_marginTop="@dimen/size_2x"
             android:alpha=".75"
             android:fontFamily="@font/roboto_light"
@@ -149,18 +177,20 @@
             android:id="@+id/cast_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/size_2x"
             android:layout_marginTop="@dimen/size_3x"
             android:fontFamily="@font/roboto_black"
             android:text="@string/cast"
             android:textColor="@color/white"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/storylineContent" />
+            app:layout_constraintTop_toBottomOf="@+id/storyline_content" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/actors_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/size_2x"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
@@ -168,7 +198,6 @@
             app:layout_constraintTop_toBottomOf="@+id/cast_title"
             tools:itemCount="4"
             tools:listitem="@layout/view_holder_actor" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

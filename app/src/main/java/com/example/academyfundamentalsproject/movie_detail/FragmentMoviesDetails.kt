@@ -3,10 +3,13 @@ package com.example.academyfundamentalsproject.movie_detail
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.academyfundamentalsproject.R
 import com.example.academyfundamentalsproject.data.MovieData
 import com.example.academyfundamentalsproject.databinding.FragmentMovieDetailsBinding
@@ -46,26 +49,41 @@ class FragmentMoviesDetails : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         _detailBinding = FragmentMovieDetailsBinding.inflate(inflater, container, false)
         return detailBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val genreString = movieData.genresList.joinToString { genre -> genre.name }
+
         with(detailBinding) {
+
+            Glide.with(requireContext())
+                .load(movieData.detailImageUrl)
+                .placeholder(R.drawable.vertical_background)
+                .fallback(R.drawable.vertical_background)
+                .into(detailBackdrop)
+
             ageCategory.text =
-                requireContext().getString(R.string.plus_sign, movieData.parentalRating.toString())
+                requireContext().getString(R.string.plus_sign, movieData.pgAge.toString())
             movieName.text = movieData.movieName
-            tagline.text = movieData.genre
+            tagline.text = genreString
             movieRating.setRating(movieData.ratingPercent)
             reviewsCounter.text =
                 getString(R.string.reviews_counter, movieData.reviewsCount.toString())
             storylineTitle.text = requireContext().getString(R.string.storyline)
-            storylineContent.text = movieData.movieDescription
+            storylineContent.text = movieData.storyLine
 
-            initActorsList()
-            actorsListAdapter.actors = movieData.actorsList
+            if (movieData.actorsList.isNotEmpty()) {
+                castTitle.visibility = VISIBLE
+                initActorsList()
+                actorsListAdapter.actors = movieData.actorsList
+            } else {
+                castTitle.visibility = GONE
+            }
 
             backMarker.setOnClickListener { onBackPressed() }
             arrowBack.setOnClickListener { onBackPressed() }

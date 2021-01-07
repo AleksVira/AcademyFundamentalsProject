@@ -21,4 +21,5 @@
     <string name="plus_sign">%1$s+</string>
     <string name="reviews_counter">%1$s reviews</string>
     <string name="minutes_counter">%1$s minutes</string>
+    <string name="movies_list">Movies list</string>
 </resources>

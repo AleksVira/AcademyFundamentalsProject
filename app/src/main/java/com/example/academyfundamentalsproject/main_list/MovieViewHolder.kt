@@ -3,6 +3,7 @@ package com.example.academyfundamentalsproject.main_list
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.academyfundamentalsproject.R
 import com.example.academyfundamentalsproject.data.MovieData
 import com.example.academyfundamentalsproject.databinding.ViewHolderMovieBinding
@@ -16,12 +17,21 @@ class MovieViewHolder(
 
     fun bindMovie(movieData: MovieData) {
         val cardContext = movieBinding.root.context
+
+        val genreString = movieData.genresList.joinToString { genre -> genre.name }
+
         with(movieBinding) {
-            itemMoviePicture.setBackgroundResource(movieData.moviePicturesResource)
+
+            Glide.with(cardContext)
+                .load(movieData.imageUrl)
+                .placeholder(R.drawable.ic_avatar_placeholder)
+                .fallback(R.drawable.ic_avatar_placeholder)
+                .into(itemMoviePicture)
+
             parentalGuidanceMark.text =
-                cardContext.getString(R.string.plus_sign, movieData.parentalRating.toString())
+                cardContext.getString(R.string.plus_sign, movieData.pgAge.toString())
             setFavouriteState(movieData.isLiked)
-            itemTagline.text = movieData.genre
+            itemTagline.text = genreString
             itemMovieRating.setRating(movieData.ratingPercent)
             reviewsCounter.text =
                 cardContext.getString(R.string.reviews_counter, movieData.reviewsCount.toString())
@@ -32,11 +42,11 @@ class MovieViewHolder(
             movieLike.setOnClickListener { view ->
                 movieData.isLiked = !movieData.isLiked
                 setFavouriteState(movieData.isLiked)
-                onFavoriteClick.invoke(adapterPosition, view)
+                onFavoriteClick.invoke(absoluteAdapterPosition, view)
             }
             root.setOnClickListener { _ ->
-                Timber.d("MyTAG_MovieViewHolder_bindMovie(): POSITION = $adapterPosition")
-                movieCardClickListener.invoke(adapterPosition)
+                Timber.d("MyTAG_MovieViewHolder_bindMovie(): POSITION = $absoluteAdapterPosition")
+                movieCardClickListener.invoke(absoluteAdapterPosition)
             }
         }
     }

@@ -29,7 +29,8 @@
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.ItemTopCornerSize8dp"
         tools:src="@drawable/item_movie_bckgrnd" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/shadow_mask"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="fitXY"
@@ -131,13 +132,16 @@
         android:id="@+id/item_tagline"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/size_x"
+        android:layout_marginHorizontal="@dimen/size_x"
         android:layout_marginBottom="@dimen/size_x"
+        android:ellipsize="end"
         android:fontFamily="@font/roboto_light"
+        android:maxLines="1"
         android:textColor="@color/taglineText"
         android:textSize="8sp"
         app:layout_constraintBottom_toTopOf="@+id/item_movie_rating"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         tools:text="Action, Adventure, Drama" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

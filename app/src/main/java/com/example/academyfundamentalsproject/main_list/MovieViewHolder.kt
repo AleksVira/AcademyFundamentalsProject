@@ -40,8 +40,7 @@ class MovieViewHolder(
                 movieData.movieLengthMinutes.toString())
 
             movieLike.setOnClickListener { view ->
-                movieData.isLiked = !movieData.isLiked
-                setFavouriteState(movieData.isLiked)
+                // Логика обработки состояния "isLiked" убрана из ViewHolder-а
                 onFavoriteClick.invoke(absoluteAdapterPosition, view)
             }
             root.setOnClickListener { _ ->

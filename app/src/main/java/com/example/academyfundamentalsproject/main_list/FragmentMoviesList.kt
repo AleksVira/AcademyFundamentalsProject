@@ -6,18 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.academyfundamentalsproject.R
-import com.example.academyfundamentalsproject.data.loadMovies
 import com.example.academyfundamentalsproject.databinding.FragmentMoviesListBinding
 import com.example.academyfundamentalsproject.utils.MovieCardClickListener
 import com.example.academyfundamentalsproject.utils.MovieGridSpaceDecorator
-import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class FragmentMoviesList : Fragment() {
+
+    private val mainListViewModel by activityViewModels<MainListViewModel>()
 
     private var movieCardClickListener: MovieCardClickListener? = null
     private lateinit var recycler: RecyclerView
@@ -32,36 +33,26 @@ class FragmentMoviesList : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentMoviesListBinding.inflate(inflater, container, false)
-
-/*
-        initView()
-        viewLifecycleOwner.lifecycleScope.launch {
-            mainListAdapter.movies = loadMovies(requireContext())
-            Timber.d("MyTAG_FragmentMoviesList_onViewCreated(): ANSWER! ")
-        }
-*/
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-        viewLifecycleOwner.lifecycleScope.launch {
-            mainListAdapter.movies = loadMovies(requireContext())
-            Timber.d("MyTAG_FragmentMoviesList_onViewCreated(): ANSWER! ")
-        }
-
+        mainListViewModel.moviesDataList.observe(viewLifecycleOwner, Observer { movieList ->
+            mainListAdapter.movies = movieList
+        })
     }
 
     private fun initView() {
         binding.moviesListHeader.text = getString(R.string.movies_list)
         recycler = binding.moviesList
+
         mainListAdapter = MainListAdapter({ adapterIndex ->
             Timber.d("MyTAG_FragmentMoviesList_initView(): $adapterIndex, ${mainListAdapter.movies[adapterIndex].movieName} CARD clicked")
             movieCardClickListener?.onMovieCardClicked(mainListAdapter.movies[adapterIndex])
-        }, { adapterIndex: Int, view: View ->
-            Timber.d("MyTAG_FragmentMoviesList_initView(): ${mainListAdapter.movies[adapterIndex].movieName} clicked from ${view.javaClass.canonicalName}")
+        }, { adapterIndex: Int, _: View ->
+            mainListViewModel.changeFavouriteState(adapterIndex)
         })
         mainListAdapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         recycler.layoutManager = GridLayoutManager(requireContext(), 2)

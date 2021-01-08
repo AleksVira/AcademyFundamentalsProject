@@ -13,7 +13,6 @@ import com.example.academyfundamentalsproject.R
 import com.example.academyfundamentalsproject.databinding.FragmentMoviesListBinding
 import com.example.academyfundamentalsproject.utils.MovieCardClickListener
 import com.example.academyfundamentalsproject.utils.MovieGridSpaceDecorator
-import timber.log.Timber
 
 class FragmentMoviesList : Fragment() {
 

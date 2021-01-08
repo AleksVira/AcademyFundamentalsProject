@@ -1,22 +1,28 @@
 package com.example.academyfundamentalsproject.main_list
 
+import android.os.Bundle
 import androidx.recyclerview.widget.DiffUtil
 import com.example.academyfundamentalsproject.data.MovieData
-import timber.log.Timber
 
-object MovieItemDiffCallback: DiffUtil.ItemCallback<MovieData>() {
+class MovieItemDiffCallback: DiffUtil.ItemCallback<MovieData>() {
+
+    companion object {
+        const val LIKE: String = "LIKE"
+    }
 
     override fun areItemsTheSame(oldItem: MovieData, newItem: MovieData): Boolean {
-        val sameItemResult = oldItem == newItem
-        Timber.d("MyTAG_MovieItemDiffCallback_areItemsTheSame(): SAME? $sameItemResult")
-        return sameItemResult
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: MovieData, newItem: MovieData): Boolean {
-        val result =
-        (oldItem.id == newItem.id)
-        Timber.d("MyTAG_MovieItemDiffCallback_areContentsTheSame(): RESULT = $result")
-        return result
+        return (oldItem == newItem)
     }
 
+    override fun getChangePayload(oldItem: MovieData, newItem: MovieData): Any? {
+        val diff = Bundle()
+        if (newItem.isLiked != oldItem.isLiked) {
+            diff.putBoolean(LIKE, newItem.isLiked)
+        }
+        return if (diff.size() == 0) null else diff
+    }
 }

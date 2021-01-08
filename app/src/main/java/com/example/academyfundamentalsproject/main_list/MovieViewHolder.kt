@@ -7,7 +7,6 @@ import com.bumptech.glide.Glide
 import com.example.academyfundamentalsproject.R
 import com.example.academyfundamentalsproject.data.MovieData
 import com.example.academyfundamentalsproject.databinding.ViewHolderMovieBinding
-import timber.log.Timber
 
 class MovieViewHolder(
     private val movieBinding: ViewHolderMovieBinding,
@@ -40,11 +39,10 @@ class MovieViewHolder(
                 movieData.movieLengthMinutes.toString())
 
             movieLike.setOnClickListener { view ->
-                // Логика обработки состояния "isLiked" убрана из ViewHolder-а
+                // Логика обработки смены состояния "isLiked" убрана из ViewHolder-а
                 onFavoriteClick.invoke(absoluteAdapterPosition, view)
             }
             root.setOnClickListener { _ ->
-                Timber.d("MyTAG_MovieViewHolder_bindMovie(): POSITION = $absoluteAdapterPosition")
                 movieCardClickListener.invoke(absoluteAdapterPosition)
             }
         }
@@ -54,5 +52,9 @@ class MovieViewHolder(
         movieBinding.movieLike.setColorFilter(if (liked) ContextCompat.getColor(movieBinding.root.context,
             R.color.like_color) else ContextCompat.getColor(movieBinding.root.context,
             R.color.white))
+    }
+
+    fun bindOnlyFavourite(newLikeState: Boolean) {
+        setFavouriteState(newLikeState)
     }
 }

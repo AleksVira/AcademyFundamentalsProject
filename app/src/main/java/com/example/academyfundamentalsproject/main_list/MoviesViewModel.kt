@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.academyfundamentalsproject.data.MovieData
 import com.example.academyfundamentalsproject.data.loadMovies
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class MoviesViewModel(app: Application) : AndroidViewModel(app) {
 

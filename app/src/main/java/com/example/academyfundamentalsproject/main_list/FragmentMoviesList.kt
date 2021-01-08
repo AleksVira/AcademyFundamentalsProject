@@ -18,7 +18,7 @@ import timber.log.Timber
 
 class FragmentMoviesList : Fragment() {
 
-    private val mainListViewModel by activityViewModels<MainListViewModel>()
+    private val moviesViewModel by activityViewModels<MoviesViewModel>()
 
     private var movieCardClickListener: MovieCardClickListener? = null
     private lateinit var recycler: RecyclerView
@@ -39,7 +39,7 @@ class FragmentMoviesList : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-        mainListViewModel.moviesDataList.observe(viewLifecycleOwner, Observer { movieList ->
+        moviesViewModel.moviesDataList.observe(viewLifecycleOwner, Observer { movieList ->
             mainListAdapter.movies = movieList
         })
     }
@@ -49,10 +49,12 @@ class FragmentMoviesList : Fragment() {
         recycler = binding.moviesList
 
         mainListAdapter = MainListAdapter({ adapterIndex ->
-            Timber.d("MyTAG_FragmentMoviesList_initView(): $adapterIndex, ${mainListAdapter.movies[adapterIndex].movieName} CARD clicked")
-            movieCardClickListener?.onMovieCardClicked(mainListAdapter.movies[adapterIndex])
+            moviesViewModel.select(adapterIndex)
+            movieCardClickListener?.onMovieCardSelected()
+//            Timber.d("MyTAG_FragmentMoviesList_initView(): $adapterIndex, ${mainListAdapter.movies[adapterIndex].movieName} CARD clicked")
+//            movieCardClickListener?.onMovieCardClicked(mainListAdapter.movies[adapterIndex])
         }, { adapterIndex: Int, _: View ->
-            mainListViewModel.changeFavouriteState(adapterIndex)
+            moviesViewModel.changeFavouriteState(adapterIndex)
         })
         mainListAdapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         recycler.layoutManager = GridLayoutManager(requireContext(), 2)

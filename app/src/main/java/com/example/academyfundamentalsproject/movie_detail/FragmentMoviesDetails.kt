@@ -3,27 +3,27 @@ package com.example.academyfundamentalsproject.movie_detail
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.academyfundamentalsproject.R
 import com.example.academyfundamentalsproject.data.MovieData
 import com.example.academyfundamentalsproject.databinding.FragmentMovieDetailsBinding
+import com.example.academyfundamentalsproject.main_list.MoviesViewModel
 import com.example.academyfundamentalsproject.utils.ActorsListSpaceDecorator
-import timber.log.Timber
 
 class FragmentMoviesDetails : Fragment() {
+
+    private val moviesViewModel by activityViewModels<MoviesViewModel>()
 
     private var _detailBinding: FragmentMovieDetailsBinding? = null
     private val detailBinding get() = _detailBinding!!
 
-    private lateinit var movieData: MovieData
     private lateinit var actorsListAdapter: ActorsListAdapter
-
 
     companion object {
         private const val PARAM_MOVIE_DATA = "PARAM_MOVIE_DATA"
@@ -34,14 +34,6 @@ class FragmentMoviesDetails : Fragment() {
             args.putParcelable(PARAM_MOVIE_DATA, movieData)
             fragment.arguments = args
             return fragment
-        }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            movieData = it.getParcelable(PARAM_MOVIE_DATA)!!
-            Timber.d("MyTAG_FragmentMoviesDetails_onCreate(): PARAM = ${movieData}")
         }
     }
 
@@ -57,6 +49,15 @@ class FragmentMoviesDetails : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        moviesViewModel.selectedMovie.observe(viewLifecycleOwner, { movieData ->
+            bindDetailMovie(movieData)
+        })
+
+        detailBinding.backMarker.setOnClickListener { onBackPressed() }
+        detailBinding.arrowBack.setOnClickListener { onBackPressed() }
+    }
+
+    private fun bindDetailMovie(movieData: MovieData) {
         val genreString = movieData.genresList.joinToString { genre -> genre.name }
 
         with(detailBinding) {
@@ -74,27 +75,25 @@ class FragmentMoviesDetails : Fragment() {
             movieRating.setRating(movieData.ratingPercent)
             reviewsCounter.text =
                 getString(R.string.reviews_counter, movieData.reviewsCount.toString())
-            storylineTitle.text = requireContext().getString(R.string.storyline)
+            storylineTitle.text =
+                requireContext().getString(R.string.storyline)
             storylineContent.text = movieData.storyLine
 
             if (movieData.actorsList.isNotEmpty()) {
-                castTitle.visibility = VISIBLE
+                castTitle.isVisible = true
                 initActorsList()
                 actorsListAdapter.actors = movieData.actorsList
             } else {
-                castTitle.visibility = GONE
+                castTitle.isVisible = false
             }
-
-            backMarker.setOnClickListener { onBackPressed() }
-            arrowBack.setOnClickListener { onBackPressed() }
         }
     }
 
     private fun initActorsList() {
-
         val recycler: RecyclerView = detailBinding.actorsList
         actorsListAdapter = ActorsListAdapter()
-        recycler.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        recycler.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         recycler.adapter = actorsListAdapter
         recycler.addItemDecoration(ActorsListSpaceDecorator(space = resources.getDimensionPixelSize(
             R.dimen.actors_list_spacing)))

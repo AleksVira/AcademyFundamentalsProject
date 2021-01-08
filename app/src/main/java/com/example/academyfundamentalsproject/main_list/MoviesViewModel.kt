@@ -10,11 +10,20 @@ import com.example.academyfundamentalsproject.data.loadMovies
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class MainListViewModel(app: Application) : AndroidViewModel(app) {
+class MoviesViewModel(app: Application) : AndroidViewModel(app) {
 
     private val _moviesDataList = MutableLiveData<List<MovieData>>()
     val moviesDataList: LiveData<List<MovieData>>
         get() = _moviesDataList
+
+
+    private val _selectedMovie = MutableLiveData<MovieData>()
+    val selectedMovie: LiveData<MovieData>
+        get() = _selectedMovie
+
+    fun select(item: Int) {
+        _selectedMovie.value = _moviesDataList.value?.get(item)
+    }
 
     init {
         viewModelScope.launch {

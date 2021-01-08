@@ -19,12 +19,14 @@ class MainActivity : AppCompatActivity(), MovieCardClickListener {
         }
     }
 
+/*
     override fun onMovieCardClicked(movieData: MovieData) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentHolder, FragmentMoviesDetails.newInstance(movieData))
             .addToBackStack(FragmentMoviesDetails::class.java.name)
             .commit()
     }
+*/
 
     override fun onMovieCardSelected() {
         supportFragmentManager.beginTransaction()

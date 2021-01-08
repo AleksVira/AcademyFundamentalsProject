@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.academyfundamentalsproject.R
@@ -39,8 +38,8 @@ class FragmentMoviesList : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-        moviesViewModel.moviesDataList.observe(viewLifecycleOwner, Observer { movieList ->
-            mainListAdapter.movies = movieList
+        moviesViewModel.moviesDataList.observe(viewLifecycleOwner, { movieList ->
+            mainListAdapter.submitList(movieList.toMutableList())
         })
     }
 
@@ -51,12 +50,9 @@ class FragmentMoviesList : Fragment() {
         mainListAdapter = MainListAdapter({ adapterIndex ->
             moviesViewModel.select(adapterIndex)
             movieCardClickListener?.onMovieCardSelected()
-//            Timber.d("MyTAG_FragmentMoviesList_initView(): $adapterIndex, ${mainListAdapter.movies[adapterIndex].movieName} CARD clicked")
-//            movieCardClickListener?.onMovieCardClicked(mainListAdapter.movies[adapterIndex])
         }, { adapterIndex: Int, _: View ->
             moviesViewModel.changeFavouriteState(adapterIndex)
         })
-        mainListAdapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         recycler.layoutManager = GridLayoutManager(requireContext(), 2)
         recycler.adapter = mainListAdapter
         recycler.addItemDecoration(MovieGridSpaceDecorator(space = resources.getDimensionPixelSize(

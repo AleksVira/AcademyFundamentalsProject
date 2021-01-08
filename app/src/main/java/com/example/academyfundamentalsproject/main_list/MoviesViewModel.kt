@@ -16,14 +16,9 @@ class MoviesViewModel(app: Application) : AndroidViewModel(app) {
     val moviesDataList: LiveData<List<MovieData>>
         get() = _moviesDataList
 
-
     private val _selectedMovie = MutableLiveData<MovieData>()
     val selectedMovie: LiveData<MovieData>
         get() = _selectedMovie
-
-    fun select(item: Int) {
-        _selectedMovie.value = _moviesDataList.value?.get(item)
-    }
 
     init {
         viewModelScope.launch {
@@ -31,24 +26,25 @@ class MoviesViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
+    fun select(item: Int) {
+        _selectedMovie.value = _moviesDataList.value?.get(item)
+    }
+
     fun changeFavouriteState(adapterIndex: Int) {
         viewModelScope.launch {
-            Timber.d("MyTAG_MainListViewModel_updateFavourite(): FAVOURITE state for $adapterIndex IS ->> ${
-                _moviesDataList.value?.get(adapterIndex)?.isLiked
-            }")
             _moviesDataList.value = fakeRequestChangeFavouriteState(adapterIndex)
-            Timber.d("MyTAG_MainListViewModel_updateFavourite(): NEW FAVOURITE state for $adapterIndex IS ->> ${
-                _moviesDataList.value?.get(adapterIndex)?.isLiked
-            }")
         }
     }
 
     private suspend fun fakeRequestChangeFavouriteState(adapterIndex: Int): List<MovieData>? {
-        val newList = _moviesDataList.value
-        val listItem = newList?.get(adapterIndex)
-        val likeState = listItem?.isLiked ?: false
-        newList?.get(adapterIndex)?.isLiked = !likeState
+        val oldList = _moviesDataList.value
+        val oldItem: MovieData = oldList?.get(adapterIndex)!!
+        val likeState = oldItem.isLiked
+        val newItem = oldItem.copy(isLiked = !likeState)
+        val newList = oldList.toMutableList()
+        newList[adapterIndex] = newItem
         return newList
     }
+
 
 }

@@ -3,22 +3,15 @@ package com.example.academyfundamentalsproject.main_list
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import com.example.academyfundamentalsproject.data.MovieData
-import com.example.academyfundamentalsproject.main_list.MovieViewHolder
 import com.example.academyfundamentalsproject.databinding.ViewHolderMovieBinding
 
 class MainListAdapter(
     private val movieCardClickListener: (Int) -> Unit,
-    private val onFavoriteClick: (Int, View) -> Unit
-) : RecyclerView.Adapter<MovieViewHolder>() {
-
-    var movies: List<MovieData> = listOf()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
-
+    private val onFavoriteClick: (Int, View) -> Unit,
+) : ListAdapter<MovieData, MovieViewHolder>(MovieItemDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val binding =
@@ -27,9 +20,8 @@ class MainListAdapter(
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        holder.bindMovie(movies[position])
+        val movie = getItem(position)
+        holder.bindMovie(movie)
     }
-
-    override fun getItemCount() = movies.size
-
 }
+

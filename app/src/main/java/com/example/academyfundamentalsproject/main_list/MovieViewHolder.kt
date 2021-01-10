@@ -1,57 +1,58 @@
 package com.example.academyfundamentalsproject.main_list
 
-import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.academyfundamentalsproject.R
-import com.example.academyfundamentalsproject.data.MovieData
+import com.example.academyfundamentalsproject.data.Movie
 import com.example.academyfundamentalsproject.databinding.ViewHolderMovieBinding
 
 class MovieViewHolder(
     private val movieBinding: ViewHolderMovieBinding,
-    private val onFavoriteClick: (Int, View) -> Unit,
+    private val onFavoriteClick: (Int) -> Unit,
     private val movieCardClickListener: (Int) -> Unit,
 ) : RecyclerView.ViewHolder(movieBinding.root) {
 
-    fun bindMovie(movieData: MovieData) {
+    fun bindMovie(movie: Movie) {
         val cardContext = movieBinding.root.context
 
-        val genreString = movieData.genresList.joinToString { genre -> genre.name }
+        val genreString = movie.genresList.joinToString { genre -> genre.name }
 
         with(movieBinding) {
 
             Glide.with(cardContext)
-                .load(movieData.imageUrl)
+                .load(movie.imageUrl)
                 .placeholder(R.drawable.ic_avatar_placeholder)
                 .fallback(R.drawable.ic_avatar_placeholder)
                 .into(itemMoviePicture)
 
             parentalGuidanceMark.text =
-                cardContext.getString(R.string.plus_sign, movieData.pgAge.toString())
-            setFavouriteState(movieData.isLiked)
+                cardContext.getString(R.string.plus_sign, movie.pgAge)
+            setFavouriteState(movie.isLiked)
             itemTagline.text = genreString
-            itemMovieRating.setRating(movieData.ratingPercent)
+            itemMovieRating.setRating(movie.ratingPercent)
             reviewsCounter.text =
-                cardContext.getString(R.string.reviews_counter, movieData.reviewsCount.toString())
-            movieName.text = movieData.movieName
-            lengthMin.text = cardContext.getString(R.string.minutes_counter,
-                movieData.movieLengthMinutes.toString())
+                cardContext.getString(R.string.reviews_counter, movie.reviewsCount)
+            movieName.text = movie.movieName
+            lengthMin.text = cardContext.getString(R.string.minutes_counter, movie.movieLengthMinutes)
 
-            movieLike.setOnClickListener { view ->
+            movieLike.setOnClickListener { _ ->
                 // Логика обработки смены состояния "isLiked" убрана из ViewHolder-а
-                onFavoriteClick.invoke(absoluteAdapterPosition, view)
+                onFavoriteClick(movie.id)
             }
             root.setOnClickListener { _ ->
-                movieCardClickListener.invoke(absoluteAdapterPosition)
+                movieCardClickListener(movie.id)
             }
         }
     }
 
     private fun setFavouriteState(liked: Boolean) {
-        movieBinding.movieLike.setColorFilter(if (liked) ContextCompat.getColor(movieBinding.root.context,
-            R.color.like_color) else ContextCompat.getColor(movieBinding.root.context,
-            R.color.white))
+        val colorRes = if (liked) {
+            R.color.like_color
+        } else {
+            R.color.white
+        }
+        movieBinding.movieLike.setColorFilter(ContextCompat.getColor(movieBinding.root.context, colorRes))
     }
 
     fun bindOnlyFavourite(newLikeState: Boolean) {

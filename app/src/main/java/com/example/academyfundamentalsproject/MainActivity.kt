@@ -2,10 +2,9 @@ package com.example.academyfundamentalsproject
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.academyfundamentalsproject.data.MovieData
 import com.example.academyfundamentalsproject.main_list.FragmentMoviesList
 import com.example.academyfundamentalsproject.movie_detail.FragmentMoviesDetails
-import com.example.academyfundamentalsproject.utils.MovieCardClickListener
+import com.example.academyfundamentalsproject.main_list.MovieCardClickListener
 
 class MainActivity : AppCompatActivity(), MovieCardClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,15 +17,6 @@ class MainActivity : AppCompatActivity(), MovieCardClickListener {
                 .commit()
         }
     }
-
-/*
-    override fun onMovieCardClicked(movieData: MovieData) {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragmentHolder, FragmentMoviesDetails.newInstance(movieData))
-            .addToBackStack(FragmentMoviesDetails::class.java.name)
-            .commit()
-    }
-*/
 
     override fun onMovieCardSelected() {
         supportFragmentManager.beginTransaction()

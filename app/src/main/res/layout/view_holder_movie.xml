@@ -40,7 +40,7 @@
         app:layout_constraintStart_toStartOf="@+id/item_movie_picture"
         app:layout_constraintTop_toTopOf="@+id/item_movie_picture" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         android:id="@+id/parental_guidance_mark"
         android:layout_width="@dimen/size_3x"
         android:layout_height="@dimen/size_3x"
@@ -66,7 +66,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/parental_guidance_mark" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         android:id="@+id/length_min"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -80,7 +80,7 @@
         app:textAllCaps="true"
         tools:text="137 min" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         android:id="@+id/movie_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -113,7 +113,7 @@
         app:startRating="75"
         app:threeQuarterFilledStarImage="@drawable/ic_star_icon_3_4" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         android:id="@+id/reviews_counter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -128,7 +128,7 @@
         app:textAllCaps="true"
         tools:text="125 Reviews" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         android:id="@+id/item_tagline"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

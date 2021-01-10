@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/movie_detail_holder"
     android:layout_width="match_parent"
-    android:background="@color/movies_detail_background"
+    android:background="@color/black_blue"
     android:layout_height="match_parent"
     android:fillViewport="true">
 
@@ -15,7 +15,7 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/detail_backdrop"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             android:scaleType="centerCrop"
             tools:src="@tools:sample/backgrounds/scenic"
@@ -26,42 +26,32 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/detail_shadow"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             android:src="@drawable/detail_mask"
             android:scaleType="centerCrop"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="@+id/detail_guideline" />
+            app:layout_constraintEnd_toEndOf="@+id/detail_backdrop"
+            app:layout_constraintStart_toStartOf="@+id/detail_backdrop"
+            app:layout_constraintTop_toTopOf="@+id/detail_backdrop"
+            app:layout_constraintBottom_toBottomOf="@+id/detail_backdrop" />
 
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/arrow_back"
-            android:layout_width="14dp"
-            android:layout_height="18dp"
-            android:layout_marginStart="@dimen/size_2x"
-            android:layout_marginTop="@dimen/size_2x"
-            android:padding="@dimen/half_x_size"
-            android:src="@drawable/ic_arrow_back"
-            android:translationX="-4dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatTextView
+        <TextView
             android:id="@+id/back_marker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:alpha="0.5"
+            android:drawablePadding="@dimen/size_x"
+            android:layout_marginTop="@dimen/size_2x"
+            android:layout_marginStart="@dimen/size_2x"
             android:fontFamily="@font/roboto_light"
             android:paddingHorizontal="@dimen/half_x_size"
             android:paddingVertical="@dimen/half_x_size"
             android:text="@string/back"
             android:textColor="@color/white"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@+id/arrow_back"
-            app:layout_constraintStart_toEndOf="@+id/arrow_back"
-            app:layout_constraintTop_toTopOf="@+id/arrow_back" />
+            app:drawableStartCompat="@drawable/ic_arrow_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/detail_guideline"
@@ -70,7 +60,7 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.37" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <TextView
             android:id="@+id/age_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -83,9 +73,9 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:text="1+" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <TextView
             android:id="@+id/movie_name"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/size_2x"
             android:ellipsize="end"
@@ -94,19 +84,21 @@
             android:textColor="@color/white"
             android:textSize="40sp"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="@dimen/size_2x"
             app:layout_constraintTop_toBottomOf="@+id/age_category"
             tools:text="Avengers:\nEnd Game" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <TextView
             android:id="@+id/tagline"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/size_2x"
             android:layout_marginTop="@dimen/half_x_size"
             android:fontFamily="@font/roboto_light"
             android:textColor="@color/taglineText"
             android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/movie_name"
             tools:text="Action, Adventure, Fantasy" />
@@ -129,7 +121,7 @@
             app:threeQuarterFilledStarImage="@drawable/ic_star_icon_3_4" />
 
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <TextView
             android:id="@+id/reviews_counter"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -144,22 +136,23 @@
             app:layout_constraintTop_toBottomOf="@+id/tagline"
             tools:text="125 Reviews" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <TextView
             android:id="@+id/storyline_title"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/size_2x"
             android:layout_marginTop="@dimen/size_3x"
             android:fontFamily="@font/roboto_black"
             android:text="@string/storyline"
-            android:textColor="#FFECECEC"
+            android:textColor="@color/movie_white"
             android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/reviews_counter" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <TextView
             android:id="@+id/storyline_content"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/size_2x"
             android:layout_marginTop="@dimen/size_2x"
@@ -168,14 +161,15 @@
             android:lineSpacingMultiplier="1.4"
             android:textColor="@color/white"
             android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/storyline_title"
             tools:text="@string/tmp_text_4" />
 
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <TextView
             android:id="@+id/cast_title"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/size_2x"
             android:layout_marginTop="@dimen/size_3x"
@@ -183,12 +177,13 @@
             android:text="@string/cast"
             android:textColor="@color/white"
             android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/storyline_content" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/actors_list"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/size_2x"
             android:orientation="horizontal"

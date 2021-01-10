@@ -5,18 +5,18 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.academyfundamentalsproject.data.MovieData
+import com.example.academyfundamentalsproject.data.Movie
 import com.example.academyfundamentalsproject.data.loadMovies
 import kotlinx.coroutines.launch
 
 class MoviesViewModel(app: Application) : AndroidViewModel(app) {
 
-    private val _moviesDataList = MutableLiveData<List<MovieData>>()
-    val moviesDataList: LiveData<List<MovieData>>
+    private val _moviesDataList = MutableLiveData<List<Movie>>()
+    val moviesList: LiveData<List<Movie>>
         get() = _moviesDataList
 
-    private val _selectedMovie = MutableLiveData<MovieData>()
-    val selectedMovie: LiveData<MovieData>
+    private val _selectedMovie = MutableLiveData<Movie>()
+    val selectedMovie: LiveData<Movie>
         get() = _selectedMovie
 
     init {
@@ -25,24 +25,30 @@ class MoviesViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-    fun select(item: Int) {
-        _selectedMovie.value = _moviesDataList.value?.get(item)
+    fun select(movieId: Int) {
+        _selectedMovie.postValue(_moviesDataList.value?.find { movie -> movie.id == movieId })
     }
 
-    fun changeFavouriteState(adapterIndex: Int) {
+    fun changeFavouriteState(movieId: Int) {
         viewModelScope.launch {
-            _moviesDataList.value = fakeRequestChangeFavouriteState(adapterIndex)
+            _moviesDataList.value = fakeRequestChangeFavouriteState(movieId)
         }
     }
 
-    private suspend fun fakeRequestChangeFavouriteState(adapterIndex: Int): List<MovieData>? {
+    private fun fakeRequestChangeFavouriteState(movieId: Int): List<Movie>? {
         val oldList = _moviesDataList.value
-        val oldItem: MovieData = oldList?.get(adapterIndex)!!
-        val likeState = oldItem.isLiked
-        val newItem = oldItem.copy(isLiked = !likeState)
-        val newList = oldList.toMutableList()
-        newList[adapterIndex] = newItem
-        return newList
+        val oldItem: Movie? = oldList?.find { movie -> movie.id == movieId }
+
+        oldItem?.let {
+            val movieIndex = oldList.indexOf(oldItem)
+            val likeState = oldItem.isLiked
+            val newItem = oldItem.copy(isLiked = !likeState)
+            val newList = oldList.toMutableList()
+            newList[movieIndex] = newItem
+            return newList
+        } ?: run{
+            return oldList
+        }
     }
 
 

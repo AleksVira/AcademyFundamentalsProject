@@ -15,7 +15,10 @@
     <color name="dark_grey">#FF565656</color>
     <color name="like_color">#FFFF4D79</color>
 
-    <color name="movies_detail_background">#FF191926</color>
+    <color name="black_blue">#FF191926</color>
+    <color name="dark_black_blue">#E6191926</color>
+    <color name="stroke_blue">#FF636375</color>
+
 
 
 </resources>

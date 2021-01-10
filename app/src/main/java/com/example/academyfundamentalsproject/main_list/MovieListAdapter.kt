@@ -5,15 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import com.example.academyfundamentalsproject.data.MovieData
+import com.example.academyfundamentalsproject.data.Movie
 import com.example.academyfundamentalsproject.databinding.ViewHolderMovieBinding
 import com.example.academyfundamentalsproject.main_list.MovieItemDiffCallback.Companion.LIKE
 
 
-class MainListAdapter(
+class MovieListAdapter(
     private val movieCardClickListener: (Int) -> Unit,
-    private val onFavoriteClick: (Int, View) -> Unit,
-) : ListAdapter<MovieData, MovieViewHolder>(MovieItemDiffCallback()) {
+    private val onFavoriteClick: (Int) -> Unit,
+) : ListAdapter<Movie, MovieViewHolder>(MovieItemDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val binding =
@@ -38,8 +38,7 @@ class MainListAdapter(
             val o = payloads[0] as Bundle
             for (key in o.keySet()) {
                 if (key == LIKE) {
-                    val newLikeState = o.getBoolean(key)
-                    holder.bindOnlyFavourite(newLikeState)
+                    holder.bindOnlyFavourite(o.getBoolean(key))
                 }
             }
         }

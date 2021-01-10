@@ -18,8 +18,8 @@
     <string name="tmp_name_3">Mark Ruffalo</string>
     <string name="tmp_name_4">Chris Hemsworth</string>
 
-    <string name="plus_sign">%1$s+</string>
-    <string name="reviews_counter">%1$s reviews</string>
-    <string name="minutes_counter">%1$s minutes</string>
+    <string name="plus_sign">%1$d+</string>
+    <string name="reviews_counter">%1$d reviews</string>
+    <string name="minutes_counter">%1$d minutes</string>
     <string name="movies_list">Movies list</string>
 </resources>

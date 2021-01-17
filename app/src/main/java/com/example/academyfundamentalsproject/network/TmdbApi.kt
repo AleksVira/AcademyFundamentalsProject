@@ -4,6 +4,7 @@ import com.example.academyfundamentalsproject.network.models.ConfigurationModelD
 import retrofit2.http.GET
 
 interface TmdbApi {
+
     @GET("configuration")
     suspend fun getTmdbConfig(): ConfigurationModelDto
 }

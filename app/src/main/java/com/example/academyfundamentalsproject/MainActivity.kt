@@ -7,7 +7,6 @@ import com.example.academyfundamentalsproject.main_list.FragmentMoviesList
 import com.example.academyfundamentalsproject.movie_detail.FragmentMoviesDetails
 import com.example.academyfundamentalsproject.main_list.MovieCardClickListener
 import com.example.academyfundamentalsproject.view_model.MoviesViewModel
-import retrofit2.Retrofit
 
 class MainActivity : AppCompatActivity(), MovieCardClickListener {
 

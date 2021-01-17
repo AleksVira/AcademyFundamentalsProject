@@ -4,9 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.academyfundamentalsproject.main_list.FragmentMoviesList
 import com.example.academyfundamentalsproject.movie_detail.FragmentMoviesDetails
-import com.example.academyfundamentalsproject.main_list.MovieCardClickListener
 
-class MainActivity : AppCompatActivity(), MovieCardClickListener {
+class MainActivity : AppCompatActivity(), FragmentMoviesList.MovieCardClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

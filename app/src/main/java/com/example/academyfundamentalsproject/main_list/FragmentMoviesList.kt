@@ -46,7 +46,7 @@ class FragmentMoviesList : Fragment() {
     }
 
     private fun initView() {
-        binding.moviesList.apply {
+        binding.listMovies.apply {
             layoutManager = GridLayoutManager(requireContext(), 2)
             adapter = mainListAdapter
             addItemDecoration(MovieGridSpaceDecorator(space = resources.getDimensionPixelSize(R.dimen.movie_grid_spacing)))
@@ -60,4 +60,7 @@ class FragmentMoviesList : Fragment() {
         }
     }
 
+    interface MovieCardClickListener {
+        fun onMovieCardSelected()
+    }
 }

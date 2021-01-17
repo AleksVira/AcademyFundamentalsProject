@@ -52,32 +52,30 @@ class FragmentMoviesDetails : Fragment() {
                 .load(movie.detailImageUrl)
                 .placeholder(R.drawable.vertical_background)
                 .fallback(R.drawable.vertical_background)
-                .into(detailBackdrop)
+                .into(ivDetailBackdrop)
 
-            ageCategory.text = getString(R.string.plus_sign, movie.pgAge)
-            movieName.text = movie.movieName
-            tagline.text = genreString
-            movieRating.setRating(movie.ratingPercent)
-            reviewsCounter.text = getString(R.string.reviews_counter, movie.reviewsCount)
-            storylineTitle.text = getString(R.string.storyline)
-            storylineContent.text = movie.storyLine
+            tvAgeCategory.text = getString(R.string.plus_sign, movie.pgAge)
+            tvMovieName.text = movie.movieName
+            tvTagLine.text = genreString
+            customMovieRating.setRating(movie.ratingPercent)
+            tvReviewsCounter.text = getString(R.string.reviews_counter, movie.reviewsCount)
+            tvStorylineTitle.text = getString(R.string.storyline)
+            tvStorylineContent.text = movie.storyLine
 
             if (movie.actorsList.isNotEmpty()) {
-                castTitle.isVisible = true
+                tvCastTitle.isVisible = true
                 actorsListAdapter = ActorsListAdapter(movie.actorsList)
                 initActorsList()
             } else {
-                castTitle.isVisible = false
+                tvCastTitle.isVisible = false
             }
-        }
-    }
+        }    }
 
     private fun initActorsList() {
-        detailBinding.actorsList.apply {
+        detailBinding.listActors.apply {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = actorsListAdapter
             addItemDecoration(ActorsListSpaceDecorator(space = resources.getDimensionPixelSize(R.dimen.actors_list_spacing)))
         }
     }
-
 }

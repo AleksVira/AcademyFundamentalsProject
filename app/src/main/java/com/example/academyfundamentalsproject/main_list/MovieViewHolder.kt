@@ -24,19 +24,19 @@ class MovieViewHolder(
                 .load(movie.imageUrl)
                 .placeholder(R.drawable.ic_avatar_placeholder)
                 .fallback(R.drawable.ic_avatar_placeholder)
-                .into(itemMoviePicture)
+                .into(ivItemMoviePicture)
 
-            parentalGuidanceMark.text =
+            tvParentalGuidanceMark.text =
                 cardContext.getString(R.string.plus_sign, movie.pgAge)
             setFavouriteState(movie.isLiked)
-            itemTagline.text = genreString
-            itemMovieRating.setRating(movie.ratingPercent)
-            reviewsCounter.text =
+            tvItemTagLine.text = genreString
+            customItemMovieRating.setRating(movie.ratingPercent)
+            tvReviewsCounter.text =
                 cardContext.getString(R.string.reviews_counter, movie.reviewsCount)
-            movieName.text = movie.movieName
-            lengthMin.text = cardContext.getString(R.string.minutes_counter, movie.movieLengthMinutes)
+            tvMovieName.text = movie.movieName
+            tvLengthMin.text = cardContext.getString(R.string.minutes_counter, movie.movieLengthMinutes)
 
-            movieLike.setOnClickListener { _ ->
+            ivMovieLike.setOnClickListener { _ ->
                 // Логика обработки смены состояния "isLiked" убрана из ViewHolder-а
                 onFavoriteClick(movie)
             }
@@ -52,7 +52,7 @@ class MovieViewHolder(
         } else {
             R.color.white
         }
-        movieBinding.movieLike.setColorFilter(ContextCompat.getColor(movieBinding.root.context, colorRes))
+        movieBinding.ivMovieLike.setColorFilter(ContextCompat.getColor(movieBinding.root.context, colorRes))
     }
 
     fun bindOnlyFavourite(newLikeState: Boolean) {

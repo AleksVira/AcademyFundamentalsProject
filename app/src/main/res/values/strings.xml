@@ -22,4 +22,7 @@
     <string name="reviews_counter">%1$d reviews</string>
     <string name="minutes_counter">%1$d minutes</string>
     <string name="movies_list">Movies list</string>
+    <string name="detail_backdrop_description">Big picture of movie</string>
+    <string name="picture_shadow_description">Picture shadow</string>
+    <string name="like_sign_description">Like sign</string>
 </resources>

@@ -11,8 +11,8 @@ import com.example.academyfundamentalsproject.main_list.MovieItemDiffCallback.Co
 
 
 class MovieListAdapter(
-    private val movieCardClickListener: (Int) -> Unit,
-    private val onFavoriteClick: (Int) -> Unit,
+    private val movieCardClickListener: (Movie) -> Unit,
+    private val onFavoriteClick: (Movie) -> Unit,
 ) : ListAdapter<Movie, MovieViewHolder>(MovieItemDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {

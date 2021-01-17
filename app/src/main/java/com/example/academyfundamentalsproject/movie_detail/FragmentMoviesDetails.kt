@@ -40,7 +40,7 @@ class FragmentMoviesDetails : Fragment() {
             bindDetailMovie(movieData)
         })
 
-        detailBinding.backMarker.setOnClickListener { onBackPressed() }
+        detailBinding.tvBackMarker.setOnClickListener { activity?.onBackPressed() }
     }
 
     private fun bindDetailMovie(movie: Movie) {
@@ -78,10 +78,6 @@ class FragmentMoviesDetails : Fragment() {
             adapter = actorsListAdapter
             addItemDecoration(ActorsListSpaceDecorator(space = resources.getDimensionPixelSize(R.dimen.actors_list_spacing)))
         }
-    }
-
-    private fun onBackPressed() {
-        activity?.onBackPressed()
     }
 
 }

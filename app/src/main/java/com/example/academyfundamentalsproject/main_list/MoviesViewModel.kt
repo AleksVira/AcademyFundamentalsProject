@@ -25,19 +25,19 @@ class MoviesViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-    fun select(movieId: Int) {
-        _selectedMovie.postValue(_moviesDataList.value?.find { movie -> movie.id == movieId })
+    fun select(testMovie: Movie) {
+        _selectedMovie.postValue(_moviesDataList.value?.find { movie -> movie == testMovie })
     }
 
-    fun changeFavouriteState(movieId: Int) {
+    fun changeFavouriteState(movie: Movie) {
         viewModelScope.launch {
-            _moviesDataList.value = fakeRequestChangeFavouriteState(movieId)
+            _moviesDataList.postValue(fakeRequestChangeFavouriteState(movie))
         }
     }
 
-    private fun fakeRequestChangeFavouriteState(movieId: Int): List<Movie>? {
+    private fun fakeRequestChangeFavouriteState(testMovie: Movie): List<Movie>? {
         val oldList = _moviesDataList.value
-        val oldItem: Movie? = oldList?.find { movie -> movie.id == movieId }
+        val oldItem: Movie? = oldList?.find { movie -> movie == testMovie }
 
         oldItem?.let {
             val movieIndex = oldList.indexOf(oldItem)

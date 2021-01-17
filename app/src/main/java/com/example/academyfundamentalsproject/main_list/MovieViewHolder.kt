@@ -9,8 +9,8 @@ import com.example.academyfundamentalsproject.databinding.ViewHolderMovieBinding
 
 class MovieViewHolder(
     private val movieBinding: ViewHolderMovieBinding,
-    private val onFavoriteClick: (Int) -> Unit,
-    private val movieCardClickListener: (Int) -> Unit,
+    private val onFavoriteClick: (Movie) -> Unit,
+    private val movieCardClickListener: (Movie) -> Unit,
 ) : RecyclerView.ViewHolder(movieBinding.root) {
 
     fun bindMovie(movie: Movie) {
@@ -38,10 +38,10 @@ class MovieViewHolder(
 
             movieLike.setOnClickListener { _ ->
                 // Логика обработки смены состояния "isLiked" убрана из ViewHolder-а
-                onFavoriteClick(movie.id)
+                onFavoriteClick(movie)
             }
             root.setOnClickListener { _ ->
-                movieCardClickListener(movie.id)
+                movieCardClickListener(movie)
             }
         }
     }

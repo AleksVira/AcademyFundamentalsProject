@@ -18,12 +18,12 @@ class FragmentMoviesList : Fragment() {
 
     private lateinit var movieCardClickListener: MovieCardClickListener
     private var mainListAdapter = MovieListAdapter(
-        movieCardClickListener = { movieId ->
-            moviesViewModel.select(movieId)
+        movieCardClickListener = { movie ->
+            moviesViewModel.select(movie)
             movieCardClickListener.onMovieCardSelected()
         },
-        onFavoriteClick = { movieId ->
-            moviesViewModel.changeFavouriteState(movieId)
+        onFavoriteClick = { movie ->
+            moviesViewModel.changeFavouriteState(movie)
         })
 
     private lateinit var binding: FragmentMoviesListBinding

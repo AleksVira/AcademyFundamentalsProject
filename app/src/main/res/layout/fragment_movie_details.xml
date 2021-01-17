@@ -36,7 +36,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/detail_backdrop" />
 
         <TextView
-            android:id="@+id/back_marker"
+            android:id="@+id/tvBackMarker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:alpha="0.5"

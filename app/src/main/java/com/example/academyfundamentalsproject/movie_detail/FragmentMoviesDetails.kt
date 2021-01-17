@@ -8,12 +8,11 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.academyfundamentalsproject.R
 import com.example.academyfundamentalsproject.data.Movie
 import com.example.academyfundamentalsproject.databinding.FragmentMovieDetailsBinding
-import com.example.academyfundamentalsproject.main_list.MoviesViewModel
+import com.example.academyfundamentalsproject.view_model.MoviesViewModel
 import com.example.academyfundamentalsproject.utils.ActorsListSpaceDecorator
 
 class FragmentMoviesDetails : Fragment() {
@@ -40,7 +39,7 @@ class FragmentMoviesDetails : Fragment() {
             bindDetailMovie(movieData)
         })
 
-        detailBinding.backMarker.setOnClickListener { onBackPressed() }
+        detailBinding.tvBackMarker.setOnClickListener { onBackPressed() }
     }
 
     private fun bindDetailMovie(movie: Movie) {
@@ -52,28 +51,28 @@ class FragmentMoviesDetails : Fragment() {
                 .load(movie.detailImageUrl)
                 .placeholder(R.drawable.vertical_background)
                 .fallback(R.drawable.vertical_background)
-                .into(detailBackdrop)
+                .into(ivDetailBackdrop)
 
-            ageCategory.text = getString(R.string.plus_sign, movie.pgAge)
-            movieName.text = movie.movieName
-            tagline.text = genreString
-            movieRating.setRating(movie.ratingPercent)
-            reviewsCounter.text = getString(R.string.reviews_counter, movie.reviewsCount)
-            storylineTitle.text = getString(R.string.storyline)
-            storylineContent.text = movie.storyLine
+            tvAgeCategory.text = getString(R.string.plus_sign, movie.pgAge)
+            tvMovieName.text = movie.movieName
+            tvTagLine.text = genreString
+            customMovieRating.setRating(movie.ratingPercent)
+            tvReviewsCounter.text = getString(R.string.reviews_counter, movie.reviewsCount)
+            tvStorylineTitle.text = getString(R.string.storyline)
+            tvStorylineContent.text = movie.storyLine
 
             if (movie.actorsList.isNotEmpty()) {
-                castTitle.isVisible = true
+                tvCastTitle.isVisible = true
                 actorsListAdapter = ActorsListAdapter(movie.actorsList)
                 initActorsList()
             } else {
-                castTitle.isVisible = false
+                tvCastTitle.isVisible = false
             }
         }
     }
 
     private fun initActorsList() {
-        detailBinding.actorsList.apply {
+        detailBinding.listActors.apply {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = actorsListAdapter
             addItemDecoration(ActorsListSpaceDecorator(space = resources.getDimensionPixelSize(R.dimen.actors_list_spacing)))

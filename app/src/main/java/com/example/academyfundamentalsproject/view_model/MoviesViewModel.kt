@@ -1,15 +1,23 @@
-package com.example.academyfundamentalsproject.main_list
+package com.example.academyfundamentalsproject.view_model
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.academyfundamentalsproject.data.ApiConfig
 import com.example.academyfundamentalsproject.data.Movie
 import com.example.academyfundamentalsproject.data.loadMovies
+import com.example.academyfundamentalsproject.network.RetrofitModule
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class MoviesViewModel(app: Application) : AndroidViewModel(app) {
+
+
+    private val _apiConfig = MutableLiveData<ApiConfig>()
+    val apiConfig: LiveData<ApiConfig>
+        get() = _apiConfig
 
     private val _moviesDataList = MutableLiveData<List<Movie>>()
     val moviesList: LiveData<List<Movie>>
@@ -21,7 +29,7 @@ class MoviesViewModel(app: Application) : AndroidViewModel(app) {
 
     init {
         viewModelScope.launch {
-            _moviesDataList.value = loadMovies(context = getApplication())
+            _moviesDataList.postValue(loadMovies(context = getApplication()))
         }
     }
 
@@ -31,7 +39,7 @@ class MoviesViewModel(app: Application) : AndroidViewModel(app) {
 
     fun changeFavouriteState(movieId: Int) {
         viewModelScope.launch {
-            _moviesDataList.value = fakeRequestChangeFavouriteState(movieId)
+            _moviesDataList.postValue(fakeRequestChangeFavouriteState(movieId))
         }
     }
 
@@ -46,10 +54,23 @@ class MoviesViewModel(app: Application) : AndroidViewModel(app) {
             val newList = oldList.toMutableList()
             newList[movieIndex] = newItem
             return newList
-        } ?: run{
+        } ?: run {
             return oldList
         }
     }
 
+    fun requestConfig() {
+        viewModelScope.launch {
+            val response = RetrofitModule.tmdbApi.getTmdbConfig()
+            Timber.d("MyTAG_MoviesViewModel_requestConfig(): $response")
+//            _apiConfig.postValue(getTmdbApiConfig())
+        }
+    }
+
+//    private fun getTmdbApiConfig(): ApiConfig {
+//
+//    }
+
 
 }
+

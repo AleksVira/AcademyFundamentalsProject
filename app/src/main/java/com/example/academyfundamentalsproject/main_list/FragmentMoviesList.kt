@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.academyfundamentalsproject.R
 import com.example.academyfundamentalsproject.databinding.FragmentMoviesListBinding
 import com.example.academyfundamentalsproject.utils.MovieGridSpaceDecorator
+import com.example.academyfundamentalsproject.view_model.MoviesViewModel
 
 class FragmentMoviesList : Fragment() {
 
@@ -46,7 +47,7 @@ class FragmentMoviesList : Fragment() {
     }
 
     private fun initView() {
-        binding.moviesList.apply {
+        binding.listMovies.apply {
             layoutManager = GridLayoutManager(requireContext(), 2)
             adapter = mainListAdapter
             addItemDecoration(MovieGridSpaceDecorator(space = resources.getDimensionPixelSize(R.dimen.movie_grid_spacing)))

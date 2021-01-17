@@ -13,12 +13,12 @@ class ActorViewHolder(
 
     fun bindActor(actor: Actor) {
         with(actorBinding) {
-            actorName.text = actor.name
+            tvActorName.text = actor.name
             Glide.with(root.context)
                 .load(actor.imageUrl)
                 .placeholder(R.drawable.ic_avatar_placeholder)
                 .fallback(R.drawable.ic_avatar_placeholder)
-                .into(actorPicture)
+                .into(ivActorPicture)
         }
     }
 

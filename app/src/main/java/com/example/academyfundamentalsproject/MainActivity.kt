@@ -1,24 +1,47 @@
 package com.example.academyfundamentalsproject
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import com.example.academyfundamentalsproject.databinding.ActivityMainBinding
 import com.example.academyfundamentalsproject.main_list.FragmentMoviesList
-import com.example.academyfundamentalsproject.movie_detail.FragmentMoviesDetails
 import com.example.academyfundamentalsproject.main_list.MovieCardClickListener
-import com.example.academyfundamentalsproject.view_model.MoviesViewModel
+import com.example.academyfundamentalsproject.movie_detail.FragmentMoviesDetails
+import com.example.academyfundamentalsproject.network.helpers.LoadingState
+import com.example.academyfundamentalsproject.network.helpers.LoadingState.Companion.LOADED
+import com.example.academyfundamentalsproject.network.helpers.LoadingState.Companion.LOADING
+import com.example.academyfundamentalsproject.view_models.MoviesViewModel
 
 class MainActivity : AppCompatActivity(), MovieCardClickListener {
 
-    private val viewModel: MoviesViewModel by viewModels()
+    private lateinit var binding: ActivityMainBinding
+
+    private val viewModel: MoviesViewModel by viewModels() {
+        MoviesViewModelFactory(application,
+            Injection.tmdbRepository)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_AcademyFundamentalsProject)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         if (savedInstanceState == null) {
             getConfigFromApi()
+        }
+
+        viewModel.loadingState.observe(this) { event ->
+            event.handle { state ->
+                progressBarVisible(state)
+
+            }
+
+
+        }
+
+        viewModel.apiConfig.observe(this) { config ->
             startMovieList()
         }
     }
@@ -38,5 +61,16 @@ class MainActivity : AppCompatActivity(), MovieCardClickListener {
             .replace(R.id.fragmentHolder, FragmentMoviesDetails())
             .addToBackStack(FragmentMoviesDetails::class.java.name)
             .commit()
+    }
+
+    fun progressBarVisible(state: LoadingState) {
+        when (state) {
+            LOADING -> {
+                binding.progressBar.isVisible = true
+            }
+            LOADED -> {
+                binding.progressBar.isVisible = false
+            }
+        }
     }
 }

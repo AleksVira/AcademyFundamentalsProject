@@ -10,10 +10,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.academyfundamentalsproject.R
-import com.example.academyfundamentalsproject.data.Movie
+import com.example.academyfundamentalsproject.repositories.domain.Movie
 import com.example.academyfundamentalsproject.databinding.FragmentMovieDetailsBinding
-import com.example.academyfundamentalsproject.view_model.MoviesViewModel
-import com.example.academyfundamentalsproject.utils.ActorsListSpaceDecorator
+import com.example.academyfundamentalsproject.view_models.MoviesViewModel
+import com.example.academyfundamentalsproject.common.ActorsListSpaceDecorator
 
 class FragmentMoviesDetails : Fragment() {
 

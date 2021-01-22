@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ConfigurationModelDto(
+data class ConfigurationDto(
 	val images: ImagesDto,
 	@SerialName("change_keys")
 	val changeKeys: List<String>
@@ -14,10 +14,10 @@ data class ConfigurationModelDto(
 data class ImagesDto(
 	@SerialName("base_url")
 	val baseUrl: String,
-	@SerialName("poster_sizes")
-	val posterSizes: List<String>,
 	@SerialName("secure_base_url")
 	val secureBaseUrl: String,
+	@SerialName("poster_sizes")
+	val posterSizes: List<String>,
 	@SerialName("backdrop_sizes")
 	val backdropSizes: List<String>,
 	@SerialName("logo_sizes")

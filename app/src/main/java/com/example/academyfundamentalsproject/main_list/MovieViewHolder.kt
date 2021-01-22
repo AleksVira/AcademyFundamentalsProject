@@ -4,7 +4,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.academyfundamentalsproject.R
-import com.example.academyfundamentalsproject.data.Movie
+import com.example.academyfundamentalsproject.repositories.domain.Movie
 import com.example.academyfundamentalsproject.databinding.ViewHolderMovieBinding
 
 class MovieViewHolder(

@@ -2,7 +2,7 @@ package com.example.academyfundamentalsproject.main_list
 
 import android.os.Bundle
 import androidx.recyclerview.widget.DiffUtil
-import com.example.academyfundamentalsproject.data.Movie
+import com.example.academyfundamentalsproject.repositories.domain.Movie
 
 class MovieItemDiffCallback: DiffUtil.ItemCallback<Movie>() {
 

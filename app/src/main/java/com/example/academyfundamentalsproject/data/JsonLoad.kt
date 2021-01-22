@@ -1,6 +1,7 @@
 package com.example.academyfundamentalsproject.data
 
 import android.content.Context
+import com.example.academyfundamentalsproject.repositories.domain.Movie
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.SerialName
@@ -69,7 +70,7 @@ internal fun parseActors(data: String): List<Actor> {
     return jsonActors.map { Actor(id = it.id, name = it.name, imageUrl = it.profilePicture) }
 }
 
-internal suspend fun loadMovies(context: Context): List<Movie> = withContext(Dispatchers.IO) {
+internal suspend fun loadFakeMovies(context: Context): List<Movie> = withContext(Dispatchers.IO) {
     val genresMap = loadGenres(context)
     val actorsMap = loadActors(context)
 
@@ -89,23 +90,23 @@ internal fun parseMovies(
 
     return jsonMovies.map { jsonMovie ->
         @Suppress("unused")
-        Movie(
-            id = jsonMovie.id,
-            movieName = jsonMovie.title,
-            storyLine = jsonMovie.overview,
-            imageUrl = jsonMovie.posterPicture,
-            detailImageUrl = jsonMovie.backdropPicture,
-            ratingPercent = jsonMovie.ratings * 10,
-            reviewsCount = jsonMovie.votesCount,
-            pgAge = if (jsonMovie.adult) 16 else 13,
-            movieLengthMinutes = jsonMovie.runtime,
-            genresList = jsonMovie.genreIds.map {
-                genresMap[it] ?: throw IllegalArgumentException("Genre not found")
-            },
-            actorsList = jsonMovie.actors.map {
-                actorsMap[it] ?: throw IllegalArgumentException("Actor not found")
-            },
-            isLiked = false
-        )
+        (Movie(
+        id = jsonMovie.id,
+        movieName = jsonMovie.title,
+        storyLine = jsonMovie.overview,
+        imageUrl = jsonMovie.posterPicture,
+        detailImageUrl = jsonMovie.backdropPicture,
+        ratingPercent = jsonMovie.ratings * 10,
+        reviewsCount = jsonMovie.votesCount,
+        pgAge = if (jsonMovie.adult) 16 else 13,
+        movieLengthMinutes = jsonMovie.runtime,
+        genresList = jsonMovie.genreIds.map {
+            genresMap[it] ?: throw IllegalArgumentException("Genre not found")
+        },
+        actorsList = jsonMovie.actors.map {
+            actorsMap[it] ?: throw IllegalArgumentException("Actor not found")
+        },
+        isLiked = false
+    ))
     }
 }

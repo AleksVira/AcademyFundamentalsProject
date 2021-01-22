@@ -1,4 +1,7 @@
-package com.example.academyfundamentalsproject.data
+package com.example.academyfundamentalsproject.repositories.domain
+
+import com.example.academyfundamentalsproject.data.Actor
+import com.example.academyfundamentalsproject.data.Genre
 
 data class Movie(
     val id: Int,

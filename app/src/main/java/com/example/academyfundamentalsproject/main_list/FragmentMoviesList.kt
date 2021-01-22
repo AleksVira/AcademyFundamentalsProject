@@ -10,8 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.academyfundamentalsproject.R
 import com.example.academyfundamentalsproject.databinding.FragmentMoviesListBinding
-import com.example.academyfundamentalsproject.utils.MovieGridSpaceDecorator
-import com.example.academyfundamentalsproject.view_model.MoviesViewModel
+import com.example.academyfundamentalsproject.view_models.MoviesViewModel
 
 class FragmentMoviesList : Fragment() {
 
@@ -41,9 +40,11 @@ class FragmentMoviesList : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-        moviesViewModel.moviesList.observe(viewLifecycleOwner, { movieList ->
+        moviesViewModel.moviesList.observe(viewLifecycleOwner) { movieList ->
             mainListAdapter.submitList(movieList)
-        })
+        }
+        moviesViewModel.loadFakeMovies()
+
     }
 
     private fun initView() {

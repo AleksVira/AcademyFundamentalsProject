@@ -2,10 +2,9 @@ package com.example.academyfundamentalsproject.main_list
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import com.example.academyfundamentalsproject.data.Movie
+import com.example.academyfundamentalsproject.repositories.domain.Movie
 import com.example.academyfundamentalsproject.databinding.ViewHolderMovieBinding
 import com.example.academyfundamentalsproject.main_list.MovieItemDiffCallback.Companion.LIKE
 

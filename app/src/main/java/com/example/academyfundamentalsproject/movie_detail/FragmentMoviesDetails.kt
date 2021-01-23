@@ -48,7 +48,7 @@ class FragmentMoviesDetails : Fragment() {
         with(detailBinding) {
 
             Glide.with(requireContext())
-                .load(movie.detailImageUrl)
+                .load(movie.backdropImageUrl)
                 .placeholder(R.drawable.vertical_background)
                 .fallback(R.drawable.vertical_background)
                 .into(ivDetailBackdrop)

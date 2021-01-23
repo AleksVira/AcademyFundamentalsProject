@@ -12,10 +12,7 @@ import com.example.academyfundamentalsproject.network.helpers.LoadingState
 import com.example.academyfundamentalsproject.network.helpers.LoadingState.Companion.LOADED
 import com.example.academyfundamentalsproject.network.helpers.LoadingState.Companion.LOADING
 import com.example.academyfundamentalsproject.repositories.domain.TmdbConfigData
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import timber.log.Timber
 
 class MoviesViewModel(
@@ -82,12 +79,29 @@ class MoviesViewModel(
             withContext(Dispatchers.Main) {
                 _loadingState.value = ConsumableValue(LOADING)
                 _networkErrorState.value = ""
+
+                val genresDeferredResponse = async(Dispatchers.IO) {
+                    repository.getGenres()
+                }
+                val configDeferredResponse = async(Dispatchers.IO) {
+                    repository.getTmdbConfig()
+                }
+
+                delay(4000)
+                val genresResponse = genresDeferredResponse.await()
+                val configResponse = configDeferredResponse.await()
+                Timber.d("MyTAG_MoviesViewModel_requestConfig(): $genresResponse, $configResponse")
+                configResponse.genres = genresResponse
+                _apiConfig.postValue(configResponse)
+
+
+/*
                 withContext(Dispatchers.IO) {
-                    delay(4000)
                     val configResponse = repository.getTmdbConfig()
                     Timber.d("MyTAG_MoviesViewModel_requestConfig(): $configResponse")
                     _apiConfig.postValue(configResponse)
                 }
+*/
                 _loadingState.value = ConsumableValue(LOADED)
             }
         }

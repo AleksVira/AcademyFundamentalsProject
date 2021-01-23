@@ -1,6 +1,7 @@
 package com.example.academyfundamentalsproject.network
 
 import com.example.academyfundamentalsproject.network.models.ConfigurationDto
+import com.example.academyfundamentalsproject.network.models.GenresResponse
 import com.example.academyfundamentalsproject.network.models.TmdbMovieDto
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -15,4 +16,7 @@ interface TmdbApi {
 //        @Query("language") defaultLanguage: String,
         @Query("page") page: Int
     ): List<TmdbMovieDto>
+
+    @GET("genre/movie/list")
+    suspend fun getGenres(): GenresResponse
 }

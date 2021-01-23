@@ -21,7 +21,7 @@ class MovieViewHolder(
         with(movieBinding) {
 
             Glide.with(cardContext)
-                .load(movie.imageUrl)
+                .load(movie.posterUrl)
                 .placeholder(R.drawable.ic_avatar_placeholder)
                 .fallback(R.drawable.ic_avatar_placeholder)
                 .into(ivItemMoviePicture)

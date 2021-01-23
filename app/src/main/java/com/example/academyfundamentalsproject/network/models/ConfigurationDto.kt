@@ -1,8 +1,10 @@
 package com.example.academyfundamentalsproject.network.models
 
+import androidx.annotation.Keep
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+@Keep
 @Serializable
 data class ConfigurationDto(
 	val images: ImagesDto,
@@ -10,6 +12,7 @@ data class ConfigurationDto(
 	val changeKeys: List<String>
 )
 
+@Keep
 @Serializable
 data class ImagesDto(
 	@SerialName("base_url")

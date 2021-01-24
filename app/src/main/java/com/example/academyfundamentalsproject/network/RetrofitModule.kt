@@ -16,6 +16,7 @@ object RetrofitModule {
     private val json = Json {
         ignoreUnknownKeys = true
         prettyPrint = true
+        coerceInputValues = true
     }
 
     private val httpClient = OkHttpClient().newBuilder()

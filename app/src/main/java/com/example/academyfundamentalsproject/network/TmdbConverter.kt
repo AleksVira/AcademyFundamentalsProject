@@ -3,11 +3,9 @@ package com.example.academyfundamentalsproject.network
 import android.util.SparseArray
 import com.example.academyfundamentalsproject.data.ApiConfig
 import com.example.academyfundamentalsproject.data.Images
-import com.example.academyfundamentalsproject.network.models.ConfigurationDto
-import com.example.academyfundamentalsproject.network.models.GenresResponse
-import com.example.academyfundamentalsproject.network.models.ImagesDto
-import com.example.academyfundamentalsproject.network.models.TmdbMovieDto
+import com.example.academyfundamentalsproject.network.models.*
 import com.example.academyfundamentalsproject.repositories.domain.Movie
+import com.example.academyfundamentalsproject.repositories.domain.SingleMovieInfo
 import com.example.academyfundamentalsproject.repositories.domain.TmdbConfigData
 
 class TmdbConverter {
@@ -49,7 +47,7 @@ class TmdbConverter {
                 storyLine = tmdbMovie.overview,
                 posterUrl = tmdbMovie.posterPath,
                 backdropImageUrl = tmdbMovie.backdropPath,
-                ratingPercent = tmdbMovie.voteAverage.toFloat(),
+                ratingPercent = (tmdbMovie.voteAverage * 10).toFloat(),
                 reviewsCount = tmdbMovie.voteCount,
                 pgAge = if (tmdbMovie.adult) 16 else 13,
                 movieLengthMinutes = 0,
@@ -68,5 +66,12 @@ class TmdbConverter {
             moviesList.put(genreEntity.id, genreEntity.name)
         }
         return moviesList
+    }
+
+    fun toSingleMovieInfo(movieResponse: MovieInfoResponse): SingleMovieInfo {
+        return SingleMovieInfo(
+            id = movieResponse.id ?: -1,
+            runtime = movieResponse.runtime ?: -1
+        )
     }
 }

@@ -1,6 +1,5 @@
 package com.example.academyfundamentalsproject
 
-import android.graphics.Point
 import android.os.Bundle
 import android.util.DisplayMetrics
 import androidx.activity.viewModels
@@ -34,21 +33,22 @@ class MainActivity : AppCompatActivity(), MovieCardClickListener {
         if (savedInstanceState == null) {
             getConfigFromApi()
             detectSizes()
+            subscribeData()
         }
+    }
 
+    private fun subscribeData() {
+        viewModel.apiConfig.observe(this) { config ->
+            startMovieList()
+        }
         viewModel.loadingState.observe(this) { event ->
             event.handle { state ->
                 progressBarVisible(state)
             }
         }
-
-        viewModel.apiConfig.observe(this) { config ->
-            startMovieList()
-        }
     }
 
     private fun detectSizes() {
-
         val outMetrics = DisplayMetrics()
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
             val display = display
@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity(), MovieCardClickListener {
             .commit()
     }
 
-    fun progressBarVisible(state: LoadingState) {
+    private fun progressBarVisible(state: LoadingState) {
         when (state) {
             LOADING -> {
                 binding.progressBar.isVisible = true

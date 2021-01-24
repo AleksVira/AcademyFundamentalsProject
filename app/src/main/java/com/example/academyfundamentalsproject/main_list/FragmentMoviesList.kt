@@ -42,6 +42,7 @@ class FragmentMoviesList : Fragment() {
         initView()
         moviesViewModel.moviesList.observe(viewLifecycleOwner) { movieList ->
             mainListAdapter.submitList(movieList)
+//            moviesViewModel.loadDurations(movieList.map { it.id })
         }
         moviesViewModel.loadRealMovies()
 

@@ -4,7 +4,9 @@ import android.util.SparseArray
 import com.example.academyfundamentalsproject.network.TmdbApi
 import com.example.academyfundamentalsproject.network.TmdbConverter
 import com.example.academyfundamentalsproject.network.models.GenresResponse
+import com.example.academyfundamentalsproject.network.models.MovieInfoResponse
 import com.example.academyfundamentalsproject.repositories.domain.Movie
+import com.example.academyfundamentalsproject.repositories.domain.SingleMovieInfo
 import com.example.academyfundamentalsproject.repositories.domain.TmdbConfigData
 import timber.log.Timber
 
@@ -12,6 +14,7 @@ interface TmdbRepository {
     suspend fun getTmdbConfig(): TmdbConfigData
     suspend fun getGenres(): SparseArray<String>
     suspend fun getNetworkTopRated(): List<Movie>
+    suspend fun getMovieInfo(movieId: Int): SingleMovieInfo
 }
 
 class TmdbRepositoryImpl(
@@ -30,6 +33,11 @@ class TmdbRepositoryImpl(
         val networkMovies = networkMoviesResponse.results
         Timber.d("MyTAG_TmdbRepositoryImpl_getNetworkTopRated(): $networkMovies")
         return converter.toMoviesList(networkMovies)
+    }
+
+    override suspend fun getMovieInfo(movieId: Int): SingleMovieInfo {
+        val networkMovieResponse: MovieInfoResponse = tmdbApi.getMovieInfoById(movieId)
+        return converter.toSingleMovieInfo(networkMovieResponse)
     }
 
     override suspend fun getGenres(): SparseArray<String> {

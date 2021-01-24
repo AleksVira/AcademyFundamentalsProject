@@ -112,14 +112,28 @@ class MoviesViewModel(
                 _loadingState.value = ConsumableValue(LOADING)
                 _networkErrorState.value = ""
                 delay(2000)
-                val moviesResponse = repository.getNetworkTopRated()
+                val moviesResponse = withContext(Dispatchers.IO) {
+                    repository.getNetworkTopRated()
+                }
                 Timber.d("MyTAG_MoviesViewModel_loadRealMovies(): $moviesResponse")
-
                 setPicturesUrl(moviesResponse)
+
+                // Для каждого фильма запрашиваю доп.данные (нужно узнать длительность)
+                moviesResponse.forEach { movie: Movie ->
+                    getMoreInfo(movie)
+                }
+
 
                 _moviesDataList.postValue(moviesResponse)
                 _loadingState.value = ConsumableValue(LOADED)
             }
+        }
+    }
+
+    private suspend fun getMoreInfo(movie: Movie) {
+        withContext(Dispatchers.IO) {
+            val additionalInfo = repository.getMovieInfo(movie.id)
+            movie.movieLengthMinutes = additionalInfo.runtime
         }
     }
 
@@ -131,10 +145,10 @@ class MoviesViewModel(
 
         moviesResponse.forEach { movie ->
             val posterTmpUrl =
-                apiConfig.value?.baseUrl + posterSizeParameter + movie.posterUrl
+                apiConfig.value?.secureBaseUrl + posterSizeParameter + movie.posterUrl
             movie.posterUrl = posterTmpUrl
             val backdropImageTmpUrl =
-                apiConfig.value?.baseUrl + backdropImageSizeParameter + movie.backdropImageUrl
+                apiConfig.value?.secureBaseUrl + backdropImageSizeParameter + movie.backdropImageUrl
             movie.backdropImageUrl = backdropImageTmpUrl
         }
     }
@@ -154,10 +168,17 @@ class MoviesViewModel(
     }
 
 
-
     fun saveScreenWidth(deviceWidth: Int) {
         Timber.d("MyTAG_MoviesViewModel_saveScreenWidth(): REAL WIDTH = $deviceWidth")
         screenWidth = deviceWidth
+    }
+
+    fun loadDurations(idList: List<Int>) {
+        idList.forEach { movieId ->
+
+
+        }
+
     }
 
 }

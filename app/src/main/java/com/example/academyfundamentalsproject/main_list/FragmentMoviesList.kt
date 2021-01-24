@@ -43,7 +43,7 @@ class FragmentMoviesList : Fragment() {
         moviesViewModel.moviesList.observe(viewLifecycleOwner) { movieList ->
             mainListAdapter.submitList(movieList)
         }
-        moviesViewModel.loadFakeMovies()
+        moviesViewModel.loadRealMovies()
 
     }
 

@@ -6,11 +6,13 @@ import com.example.academyfundamentalsproject.network.TmdbConverter
 import com.example.academyfundamentalsproject.network.models.GenresResponse
 import com.example.academyfundamentalsproject.repositories.domain.Movie
 import com.example.academyfundamentalsproject.repositories.domain.TmdbConfigData
+import timber.log.Timber
 
 interface TmdbRepository {
     suspend fun getTmdbConfig(): TmdbConfigData
+    suspend fun getGenres(): SparseArray<String>
     suspend fun getNetworkTopRated(): List<Movie>
-    suspend fun getGenres(): SparseArray<String>}
+}
 
 class TmdbRepositoryImpl(
     private val tmdbApi: TmdbApi,
@@ -23,7 +25,10 @@ class TmdbRepositoryImpl(
     }
 
     override suspend fun getNetworkTopRated(): List<Movie> {
-        val networkMovies = tmdbApi.getTopRated(1)
+        val networkMoviesResponse = tmdbApi.getTopRated(1)
+        Timber.d("MyTAG_TmdbRepositoryImpl_getNetworkTopRated(): $networkMoviesResponse")
+        val networkMovies = networkMoviesResponse.results
+        Timber.d("MyTAG_TmdbRepositoryImpl_getNetworkTopRated(): $networkMovies")
         return converter.toMoviesList(networkMovies)
     }
 

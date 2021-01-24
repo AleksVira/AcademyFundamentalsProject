@@ -1,6 +1,8 @@
 package com.example.academyfundamentalsproject
 
+import android.graphics.Point
 import android.os.Bundle
+import android.util.DisplayMetrics
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -12,6 +14,7 @@ import com.example.academyfundamentalsproject.network.helpers.LoadingState
 import com.example.academyfundamentalsproject.network.helpers.LoadingState.Companion.LOADED
 import com.example.academyfundamentalsproject.network.helpers.LoadingState.Companion.LOADING
 import com.example.academyfundamentalsproject.view_models.MoviesViewModel
+
 
 class MainActivity : AppCompatActivity(), MovieCardClickListener {
 
@@ -30,20 +33,35 @@ class MainActivity : AppCompatActivity(), MovieCardClickListener {
 
         if (savedInstanceState == null) {
             getConfigFromApi()
+            detectSizes()
         }
 
         viewModel.loadingState.observe(this) { event ->
             event.handle { state ->
                 progressBarVisible(state)
-
             }
-
-
         }
 
         viewModel.apiConfig.observe(this) { config ->
             startMovieList()
         }
+    }
+
+    private fun detectSizes() {
+
+        val outMetrics = DisplayMetrics()
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+            val display = display
+            display?.getRealMetrics(outMetrics)
+        } else {
+            @Suppress("DEPRECATION")
+            val display = windowManager.defaultDisplay
+            @Suppress("DEPRECATION")
+            display.getMetrics(outMetrics)
+        }
+        val deviceWidth: Int = outMetrics.widthPixels
+        viewModel.saveScreenWidth(deviceWidth)
+
     }
 
     private fun getConfigFromApi() {

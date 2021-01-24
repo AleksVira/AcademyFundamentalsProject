@@ -6,11 +6,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.academyfundamentalsproject.common.ConsumableValue
-import com.example.academyfundamentalsproject.repositories.domain.Movie
 import com.example.academyfundamentalsproject.data.loadFakeMovies
 import com.example.academyfundamentalsproject.network.helpers.LoadingState
 import com.example.academyfundamentalsproject.network.helpers.LoadingState.Companion.LOADED
 import com.example.academyfundamentalsproject.network.helpers.LoadingState.Companion.LOADING
+import com.example.academyfundamentalsproject.repositories.domain.Movie
 import com.example.academyfundamentalsproject.repositories.domain.TmdbConfigData
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -19,6 +19,8 @@ class MoviesViewModel(
     private val app: Application,
     private val repository: TmdbRepository,
 ) : AndroidViewModel(app) {
+
+    private var screenWidth: Int = 0
 
     private val _loadingState = MutableLiveData<ConsumableValue<LoadingState>>()
     val loadingState: LiveData<ConsumableValue<LoadingState>>
@@ -87,21 +89,12 @@ class MoviesViewModel(
                     repository.getTmdbConfig()
                 }
 
-                delay(4000)
+                delay(1000)
                 val genresResponse = genresDeferredResponse.await()
                 val configResponse = configDeferredResponse.await()
                 Timber.d("MyTAG_MoviesViewModel_requestConfig(): $genresResponse, $configResponse")
                 configResponse.genres = genresResponse
                 _apiConfig.postValue(configResponse)
-
-
-/*
-                withContext(Dispatchers.IO) {
-                    val configResponse = repository.getTmdbConfig()
-                    Timber.d("MyTAG_MoviesViewModel_requestConfig(): $configResponse")
-                    _apiConfig.postValue(configResponse)
-                }
-*/
                 _loadingState.value = ConsumableValue(LOADED)
             }
         }
@@ -113,10 +106,59 @@ class MoviesViewModel(
         }
     }
 
-//    private fun getTmdbApiConfig(): ApiConfig {
-//
-//    }
+    fun loadRealMovies() {
+        viewModelScope.launch {
+            withContext(Dispatchers.Main) {
+                _loadingState.value = ConsumableValue(LOADING)
+                _networkErrorState.value = ""
+                delay(2000)
+                val moviesResponse = repository.getNetworkTopRated()
+                Timber.d("MyTAG_MoviesViewModel_loadRealMovies(): $moviesResponse")
 
+                setPicturesUrl(moviesResponse)
+
+                _moviesDataList.postValue(moviesResponse)
+                _loadingState.value = ConsumableValue(LOADED)
+            }
+        }
+    }
+
+    private fun setPicturesUrl(
+        moviesResponse: List<Movie>,
+    ) {
+        val posterSizeParameter = selectImageWidth(apiConfig.value?.posterSizes, screenWidth / 2)
+        val backdropImageSizeParameter = selectImageWidth(apiConfig.value?.backdropSizes, screenWidth)
+
+        moviesResponse.forEach { movie ->
+            val posterTmpUrl =
+                apiConfig.value?.baseUrl + posterSizeParameter + movie.posterUrl
+            movie.posterUrl = posterTmpUrl
+            val backdropImageTmpUrl =
+                apiConfig.value?.baseUrl + backdropImageSizeParameter + movie.backdropImageUrl
+            movie.backdropImageUrl = backdropImageTmpUrl
+        }
+    }
+
+    private fun selectImageWidth(posterSizes: List<String>?, widthLimit: Int): String {
+        val reversedSizes = posterSizes?.asReversed()
+        reversedSizes?.forEach { stringValue ->
+            val res = stringValue.replace("[^0-9]".toRegex(), "")
+            if (res.isNotEmpty()) {
+                val resultNumber = res.toInt()
+                if (resultNumber < widthLimit) {
+                    return stringValue
+                }
+            }
+        }
+        return "original"
+    }
+
+
+
+    fun saveScreenWidth(deviceWidth: Int) {
+        Timber.d("MyTAG_MoviesViewModel_saveScreenWidth(): REAL WIDTH = $deviceWidth")
+        screenWidth = deviceWidth
+    }
 
 }
 

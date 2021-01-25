@@ -1,12 +1,11 @@
 package com.example.academyfundamentalsproject.view_models
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.academyfundamentalsproject.common.ConsumableValue
-import com.example.academyfundamentalsproject.data.loadFakeMovies
+import com.example.academyfundamentalsproject.data.Actor
 import com.example.academyfundamentalsproject.network.helpers.LoadingState
 import com.example.academyfundamentalsproject.network.helpers.LoadingState.Companion.LOADED
 import com.example.academyfundamentalsproject.network.helpers.LoadingState.Companion.LOADING
@@ -16,9 +15,9 @@ import kotlinx.coroutines.*
 import timber.log.Timber
 
 class MoviesViewModel(
-    private val app: Application,
+//    private val app: Application,
     private val repository: TmdbRepository,
-) : AndroidViewModel(app) {
+) : ViewModel() {
 
     private var screenWidth: Int = 0
 
@@ -37,6 +36,10 @@ class MoviesViewModel(
     private val _moviesDataList = MutableLiveData<List<Movie>>()
     val moviesList: LiveData<List<Movie>>
         get() = _moviesDataList
+
+    private val _actorsDataList = MutableLiveData<List<Actor>>()
+    val actorsDataList: LiveData<List<Actor>>
+        get() = _actorsDataList
 
     private val _selectedMovie = MutableLiveData<Movie>()
     val selectedMovie: LiveData<Movie>
@@ -100,12 +103,6 @@ class MoviesViewModel(
         }
     }
 
-    fun loadFakeMovies() {
-        viewModelScope.launch {
-            _moviesDataList.postValue(loadFakeMovies(context = app))
-        }
-    }
-
     fun loadRealMovies() {
         viewModelScope.launch {
             withContext(Dispatchers.Main) {
@@ -116,30 +113,18 @@ class MoviesViewModel(
                     repository.getNetworkTopRated()
                 }
                 Timber.d("MyTAG_MoviesViewModel_loadRealMovies(): $moviesResponse")
-                setPicturesUrl(moviesResponse)
-
-                // Для каждого фильма запрашиваю доп.данные (нужно узнать длительность)
-                moviesResponse.forEach { movie: Movie ->
-                    getMoreInfo(movie)
+                withContext(Dispatchers.Default) {
+                    setPicturesUrl(moviesResponse)
                 }
-
-
                 _moviesDataList.postValue(moviesResponse)
                 _loadingState.value = ConsumableValue(LOADED)
+                // Для каждого фильма запрашиваю доп.данные (нужно узнать длительность)
+                loadDurations(moviesResponse)
             }
         }
     }
 
-    private suspend fun getMoreInfo(movie: Movie) {
-        withContext(Dispatchers.IO) {
-            val additionalInfo = repository.getMovieInfo(movie.id)
-            movie.movieLengthMinutes = additionalInfo.runtime
-        }
-    }
-
-    private fun setPicturesUrl(
-        moviesResponse: List<Movie>,
-    ) {
+    private fun setPicturesUrl(moviesResponse: List<Movie>) {
         val posterSizeParameter = selectImageWidth(apiConfig.value?.posterSizes, screenWidth / 2)
         val backdropImageSizeParameter = selectImageWidth(apiConfig.value?.backdropSizes, screenWidth)
 
@@ -173,13 +158,50 @@ class MoviesViewModel(
         screenWidth = deviceWidth
     }
 
-    fun loadDurations(idList: List<Int>) {
-        idList.forEach { movieId ->
-
-
+    private fun loadDurations(moviesList: List<Movie>) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                moviesList.forEach { movie ->
+                    val additionalInfo = repository.getMovieInfo(movie.id)
+                    movie.movieLengthMinutes = additionalInfo.runtime
+                }
+                _moviesDataList.postValue(moviesList)
+            }
         }
+    }
 
+    fun loadActorsFromNetwork(movie: Movie) {
+        viewModelScope.launch {
+            withContext(Dispatchers.Main) {
+                _loadingState.value = ConsumableValue(LOADING)
+                _networkErrorState.value = ""
+
+                withContext(Dispatchers.IO) {
+                    val actorsResponse = repository.getActors(movie.id)
+                    withContext(Dispatchers.Default) {
+                        setAvatarUrl(actorsResponse)
+                    }
+                    _actorsDataList.postValue(actorsResponse)
+                }
+            }
+            _loadingState.value = ConsumableValue(LOADED)
+        }
+    }
+
+    private fun setAvatarUrl(actorsResponse: List<Actor>?) {
+        val avatarSizeParameter = selectImageWidth(apiConfig.value?.avatarSizes, screenWidth / 4)
+        actorsResponse?.forEach { actor ->
+            if (actor.imageUrl.isEmpty()) {
+                return
+            }
+            val avatarTmpUrl =
+                apiConfig.value?.secureBaseUrl + avatarSizeParameter + actor.imageUrl
+            actor.imageUrl = avatarTmpUrl
+        }
+    }
+
+    fun clearActors() {
+        _actorsDataList.postValue(emptyList())
     }
 
 }
-

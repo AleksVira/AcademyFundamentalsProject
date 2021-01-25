@@ -10,16 +10,18 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.academyfundamentalsproject.R
-import com.example.academyfundamentalsproject.repositories.domain.Movie
-import com.example.academyfundamentalsproject.databinding.FragmentMovieDetailsBinding
-import com.example.academyfundamentalsproject.view_models.MoviesViewModel
 import com.example.academyfundamentalsproject.common.ActorsListSpaceDecorator
+import com.example.academyfundamentalsproject.data.Actor
+import com.example.academyfundamentalsproject.databinding.FragmentMovieDetailsBinding
+import com.example.academyfundamentalsproject.repositories.domain.Movie
+import com.example.academyfundamentalsproject.view_models.MoviesViewModel
 
 class FragmentMoviesDetails : Fragment() {
 
     private val moviesViewModel by activityViewModels<MoviesViewModel>()
 
-    private lateinit var detailBinding: FragmentMovieDetailsBinding
+    private var _detailBinding: FragmentMovieDetailsBinding? = null
+    private val detailBinding get() = _detailBinding!!
 
     private lateinit var actorsListAdapter: ActorsListAdapter
 
@@ -28,7 +30,7 @@ class FragmentMoviesDetails : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        detailBinding = FragmentMovieDetailsBinding.inflate(inflater, container, false)
+        _detailBinding = FragmentMovieDetailsBinding.inflate(inflater, container, false)
         return detailBinding.root
     }
 
@@ -36,16 +38,23 @@ class FragmentMoviesDetails : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         moviesViewModel.selectedMovie.observe(viewLifecycleOwner, { movieData ->
+            moviesViewModel.loadActorsFromNetwork(movieData)
             bindDetailMovie(movieData)
         })
+        moviesViewModel.actorsDataList.observe(viewLifecycleOwner) { actorsList ->
+            showActors(actorsList)
+        }
 
         detailBinding.tvBackMarker.setOnClickListener { onBackPressed() }
+
     }
 
     private fun bindDetailMovie(movie: Movie) {
-        val genreString = movie.genresList.joinToString { genre -> genre.name }
-
+        val genreString = movie.genresList.joinToString()
         with(detailBinding) {
+
+            tvCastTitle.isVisible = false
+            listActors.isVisible = false
 
             Glide.with(requireContext())
                 .load(movie.backdropImageUrl)
@@ -61,26 +70,32 @@ class FragmentMoviesDetails : Fragment() {
             tvStorylineTitle.text = getString(R.string.storyline)
             tvStorylineContent.text = movie.storyLine
 
-            if (movie.actorsList.isNotEmpty()) {
-                tvCastTitle.isVisible = true
-                actorsListAdapter = ActorsListAdapter(movie.actorsList)
-                initActorsList()
-            } else {
-                tvCastTitle.isVisible = false
-            }
         }
     }
 
-    private fun initActorsList() {
-        detailBinding.listActors.apply {
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            adapter = actorsListAdapter
-            addItemDecoration(ActorsListSpaceDecorator(space = resources.getDimensionPixelSize(R.dimen.actors_list_spacing)))
+    private fun showActors(actorsList: List<Actor>?) {
+        if (actorsList?.isNotEmpty() == true) {
+            detailBinding.listActors.isVisible = true
+            detailBinding.tvCastTitle.isVisible = true
+            actorsListAdapter = ActorsListAdapter(actorsList)
+            detailBinding.listActors.apply {
+                layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                adapter = actorsListAdapter
+                addItemDecoration(ActorsListSpaceDecorator(space = resources.getDimensionPixelSize(R.dimen.actors_list_spacing)))
+            }
+        } else {
+            detailBinding.tvCastTitle.isVisible = false
         }
     }
 
     private fun onBackPressed() {
         activity?.onBackPressed()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        moviesViewModel.clearActors()
+        _detailBinding = null
     }
 
 }

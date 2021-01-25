@@ -26,14 +26,22 @@ class FragmentMoviesList : Fragment() {
             moviesViewModel.changeFavouriteState(movieId)
         })
 
-    private lateinit var binding: FragmentMoviesListBinding
+    private var _binding: FragmentMoviesListBinding? = null
+    private val binding get() = _binding!!
+
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        moviesViewModel.loadRealMovies()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentMoviesListBinding.inflate(inflater, container, false)
+        _binding = FragmentMoviesListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -42,10 +50,7 @@ class FragmentMoviesList : Fragment() {
         initView()
         moviesViewModel.moviesList.observe(viewLifecycleOwner) { movieList ->
             mainListAdapter.submitList(movieList)
-//            moviesViewModel.loadDurations(movieList.map { it.id })
         }
-        moviesViewModel.loadRealMovies()
-
     }
 
     private fun initView() {
@@ -61,6 +66,12 @@ class FragmentMoviesList : Fragment() {
         if (context is MovieCardClickListener) {
             movieCardClickListener = context
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        moviesViewModel.clearActors()
+        _binding = null
     }
 
 }

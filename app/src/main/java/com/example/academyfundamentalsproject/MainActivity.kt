@@ -20,8 +20,7 @@ class MainActivity : AppCompatActivity(), MovieCardClickListener {
     private lateinit var binding: ActivityMainBinding
 
     private val viewModel: MoviesViewModel by viewModels() {
-        MoviesViewModelFactory(application,
-            Injection.tmdbRepository)
+        MoviesViewModelFactory(Injection.tmdbRepository)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

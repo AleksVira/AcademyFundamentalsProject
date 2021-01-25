@@ -1,9 +1,6 @@
 package com.example.academyfundamentalsproject.network
 
-import com.example.academyfundamentalsproject.network.models.ConfigurationDto
-import com.example.academyfundamentalsproject.network.models.GenresResponse
-import com.example.academyfundamentalsproject.network.models.MovieInfoResponse
-import com.example.academyfundamentalsproject.network.models.MovieResponse
+import com.example.academyfundamentalsproject.network.models.*
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -26,4 +23,9 @@ interface TmdbApi {
     suspend fun getMovieInfoById(
         @Path("movie_id") movieId: Int
     ): MovieInfoResponse
+
+    @GET("movie/{movie_id}/credits")
+    suspend fun getActorsById(
+        @Path("movie_id") movieId: Int
+    ): CreditsResponse
 }

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/item_actor"
-    android:layout_width="wrap_content"
+    android:layout_width="@dimen/actor_icon_size"
     android:layout_height="wrap_content">
 
     <com.google.android.material.imageview.ShapeableImageView
@@ -16,6 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.CornerSize4dp"
+        app:srcCompat="@drawable/ic_avatar_placeholder"
         tools:src="@tools:sample/avatars" />
 
     <TextView
@@ -28,9 +29,10 @@
         android:maxLines="2"
         android:textColor="@color/grayText"
         android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@+id/ivActorPicture"
-        app:layout_constraintStart_toStartOf="@+id/ivActorPicture"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivActorPicture"
+        app:layout_goneMarginTop="88dp"
         tools:text="@tools:sample/full_names" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

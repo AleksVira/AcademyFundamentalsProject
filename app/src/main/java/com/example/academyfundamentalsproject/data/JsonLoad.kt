@@ -70,6 +70,7 @@ internal fun parseActors(data: String): List<Actor> {
     return jsonActors.map { Actor(id = it.id, name = it.name, imageUrl = it.profilePicture) }
 }
 
+/*
 internal suspend fun loadFakeMovies(context: Context): List<Movie> = withContext(Dispatchers.IO) {
     val genresMap = loadGenres(context)
     val actorsMap = loadActors(context)
@@ -77,6 +78,7 @@ internal suspend fun loadFakeMovies(context: Context): List<Movie> = withContext
     val data = readAssetFileToString(context, "data.json")
     parseMovies(data, genresMap, actorsMap)
 }
+*/
 
 internal fun parseMovies(
     data: String,
@@ -100,9 +102,10 @@ internal fun parseMovies(
         reviewsCount = jsonMovie.votesCount,
         pgAge = if (jsonMovie.adult) 16 else 13,
         movieLengthMinutes = jsonMovie.runtime,
-        genresList = jsonMovie.genreIds.map {
-            genresMap[it] ?: throw IllegalArgumentException("Genre not found")
-        },
+        genresList = arrayListOf(),
+//        genresList = jsonMovie.genreIds.map {
+//            genresMap[it] ?: throw IllegalArgumentException("Genre not found")
+//        },
         actorsList = jsonMovie.actors.map {
             actorsMap[it] ?: throw IllegalArgumentException("Actor not found")
         },

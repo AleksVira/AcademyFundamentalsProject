@@ -16,7 +16,7 @@ class MovieViewHolder(
     fun bindMovie(movie: Movie) {
         val cardContext = movieBinding.root.context
 
-        val genreString = movie.genresList.joinToString { genre -> genre.name }
+        val genreString = movie.genresList.joinToString()
 
         with(movieBinding) {
 

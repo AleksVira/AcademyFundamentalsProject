@@ -13,7 +13,7 @@ data class Movie(
     val reviewsCount: Int,
     val pgAge: Int,
     var movieLengthMinutes: Int,
-    val genresList: List<Genre>,
+    val genresList: List<String>,
     val actorsList: List<Actor>,
     var isLiked: Boolean,
 )

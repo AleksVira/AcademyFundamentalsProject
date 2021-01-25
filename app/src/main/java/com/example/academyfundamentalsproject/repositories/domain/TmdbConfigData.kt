@@ -7,5 +7,6 @@ data class TmdbConfigData(
     val secureBaseUrl: String,
     val posterSizes: List<String>,
     val backdropSizes: List<String>,
+    val avatarSizes: List<String>,
     var genres: SparseArray<String>
 )

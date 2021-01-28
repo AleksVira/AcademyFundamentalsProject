@@ -5,7 +5,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface TmdbApi {
+interface TmdbService {
 
     @GET("configuration")
     suspend fun getTmdbConfig(): ConfigurationDto
@@ -28,4 +28,9 @@ interface TmdbApi {
     suspend fun getActorsById(
         @Path("movie_id") movieId: Int
     ): CreditsResponse
+
+    @GET("movie/top_rated")
+    fun getTopRatedPaged(
+        @Query("page") page: Int,
+    ): MovieResponse
 }

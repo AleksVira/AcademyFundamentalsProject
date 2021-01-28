@@ -15,9 +15,9 @@ class ActorViewHolder(
         with(actorBinding) {
             tvActorName.text = actor.name
             if (actor.imageUrl.isNotEmpty()) {
-                ivActorPicture.scaleType = ImageView.ScaleType.CENTER_CROP
                 Glide.with(root.context)
                     .load(actor.imageUrl)
+                    .centerCrop()
                     .placeholder(R.drawable.ic_avatar_placeholder)
                     .fallback(R.drawable.ic_avatar_placeholder)
                     .into(ivActorPicture)

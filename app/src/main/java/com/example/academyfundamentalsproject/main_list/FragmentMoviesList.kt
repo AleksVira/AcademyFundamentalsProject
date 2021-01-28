@@ -30,7 +30,6 @@ class FragmentMoviesList : Fragment() {
     private val binding get() = _binding!!
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         moviesViewModel.loadRealMovies()
@@ -48,6 +47,7 @@ class FragmentMoviesList : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
+//        fetchNewMovies()
         moviesViewModel.moviesList.observe(viewLifecycleOwner) { movieList ->
             mainListAdapter.submitList(movieList)
         }
@@ -74,4 +74,13 @@ class FragmentMoviesList : Fragment() {
         _binding = null
     }
 
+/*
+    private fun fetchNewMovies() {
+        lifecycleScope.launch {
+            moviesViewModel.fetchMovies().collectLatest { pagingData ->
+                mainListAdapter.submitData(pagingData)
+            }
+        }
+    }
+*/
 }

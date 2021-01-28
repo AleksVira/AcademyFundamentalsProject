@@ -15,6 +15,7 @@ import com.example.academyfundamentalsproject.data.Actor
 import com.example.academyfundamentalsproject.databinding.FragmentMovieDetailsBinding
 import com.example.academyfundamentalsproject.repositories.domain.Movie
 import com.example.academyfundamentalsproject.view_models.MoviesViewModel
+import timber.log.Timber
 
 class FragmentMoviesDetails : Fragment() {
 

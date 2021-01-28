@@ -58,4 +58,8 @@ class MovieViewHolder(
     fun bindOnlyFavourite(newLikeState: Boolean) {
         setFavouriteState(newLikeState)
     }
+
+    fun updateRuntime(newTime: Int) {
+        movieBinding.tvLengthMin.text = movieBinding.root.context.getString(R.string.minutes_counter, newTime)
+    }
 }

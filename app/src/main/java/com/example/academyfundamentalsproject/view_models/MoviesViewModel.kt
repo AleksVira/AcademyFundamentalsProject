@@ -96,7 +96,6 @@ class MoviesViewModel(
                 val genresResponse = genresDeferredResponse.await()
                 val configResponse = configDeferredResponse.await()
                 Timber.d("MyTAG_MoviesViewModel_requestConfig(): $genresResponse, $configResponse")
-                configResponse.genres = genresResponse
                 _apiConfig.postValue(configResponse)
                 _loadingState.value = ConsumableValue(LOADED)
             }
@@ -203,5 +202,11 @@ class MoviesViewModel(
     fun clearActors() {
         _actorsDataList.postValue(emptyList())
     }
+
+/*
+    fun fetchMovies(): Flow<PagingData<Movie>> {
+        return repository.  .getTopRatedPaged().cachedIn(viewModelScope)
+    }
+*/
 
 }

@@ -8,6 +8,7 @@ class MovieItemDiffCallback: DiffUtil.ItemCallback<Movie>() {
 
     companion object {
         const val LIKE: String = "LIKE"
+        const val RUNTIME: String = "RUNTIME"
     }
 
     override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
@@ -22,6 +23,9 @@ class MovieItemDiffCallback: DiffUtil.ItemCallback<Movie>() {
         val diff = Bundle()
         if (newItem.isLiked != oldItem.isLiked) {
             diff.putBoolean(LIKE, newItem.isLiked)
+        }
+        if (newItem.movieLengthMinutes != oldItem.movieLengthMinutes) {
+            diff.putInt(RUNTIME, newItem.movieLengthMinutes)
         }
         return if (diff.size() == 0) null else diff
     }

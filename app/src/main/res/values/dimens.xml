@@ -5,4 +5,7 @@
     <dimen name="size_2x">16dp</dimen>
     <dimen name="size_3x">24dp</dimen>
     <dimen name="back_label_top_margin">8dp</dimen>
+    <dimen name="movie_grid_spacing">@dimen/size_2x</dimen>
+    <dimen name="actors_list_spacing">@dimen/size_x</dimen>
+    <dimen name="actor_icon_size">80dp</dimen>
 </resources>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/list_holder"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black_blue">
+
+    <TextView
+        android:id="@+id/tvMoviesListHeader"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/size_2x"
+        android:layout_marginTop="56dp"
+        android:drawablePadding="@dimen/size_x"
+        android:fontFamily="@font/roboto_black"
+        android:text="@string/movies_list"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:drawableStartCompat="@drawable/ic_aim_red"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listMovies"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/size_3x"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvMoviesListHeader"
+        app:spanCount="2"
+        tools:itemCount="3"
+        tools:listitem="@layout/view_holder_movie" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,8 +9,20 @@
     <string name="tmp_text_3">125 Reviews</string>
     <string name="tmp_text_4">After the devastating events of Avengers: Infinity War, the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos\' actions and restore balance to the universe.</string>
     <string name="tmp_text_5">13+</string>
+    <string name="tmp_text_6">Avengers: End Game</string>
+    <string name="tmp_text_7">137 min</string>
+    <string name="tmp_text_8">Action, Adventure, Drama</string>
+
     <string name="tmp_name_1">Robert Downey&#160;Jr.</string>
     <string name="tmp_name_2">Chris Evans</string>
     <string name="tmp_name_3">Mark Ruffalo</string>
     <string name="tmp_name_4">Chris Hemsworth</string>
+
+    <string name="plus_sign">%1$d+</string>
+    <string name="reviews_counter">%1$d reviews</string>
+    <string name="minutes_counter">%1$d minutes</string>
+    <string name="movies_list">Movies list</string>
+    <string name="detail_backdrop_description">Big picture of movie</string>
+    <string name="picture_shadow_description">Picture shadow</string>
+    <string name="like_sign_description">Like sign</string>
 </resources>

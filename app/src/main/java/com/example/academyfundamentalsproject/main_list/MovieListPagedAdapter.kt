@@ -3,6 +3,7 @@ package com.example.academyfundamentalsproject.main_list
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.ListAdapter
 import com.example.academyfundamentalsproject.databinding.ViewHolderMovieBinding
 import com.example.academyfundamentalsproject.main_list.MovieItemDiffCallback.Companion.LIKE
@@ -10,10 +11,10 @@ import com.example.academyfundamentalsproject.main_list.MovieItemDiffCallback.Co
 import com.example.academyfundamentalsproject.repositories.domain.Movie
 
 
-class MovieListAdapter(
+class MovieListPagedAdapter(
     private val movieCardClickListener: (Int) -> Unit,
     private val onFavoriteClick: (Int, Int) -> Unit,
-) : ListAdapter<Movie, MovieViewHolder>(MovieItemDiffCallback()) {
+) : PagingDataAdapter<Movie, MovieViewHolder>(MovieItemDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val binding =
@@ -44,4 +45,10 @@ class MovieListAdapter(
             super.onBindViewHolder(holder, position, payloads)
         }
     }
+
+    fun getMovie() {
+        this
+    }
+
+
 }

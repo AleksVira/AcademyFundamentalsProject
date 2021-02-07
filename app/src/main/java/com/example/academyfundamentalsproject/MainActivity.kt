@@ -13,6 +13,8 @@ import com.example.academyfundamentalsproject.network.helpers.LoadingState
 import com.example.academyfundamentalsproject.network.helpers.LoadingState.Companion.LOADED
 import com.example.academyfundamentalsproject.network.helpers.LoadingState.Companion.LOADING
 import com.example.academyfundamentalsproject.view_models.MoviesViewModel
+import java.util.concurrent.atomic.AtomicBoolean
+import java.util.concurrent.atomic.AtomicInteger
 
 
 class MainActivity : AppCompatActivity(), MovieCardClickListener {
@@ -89,5 +91,18 @@ class MainActivity : AppCompatActivity(), MovieCardClickListener {
                 binding.progressBar.isVisible = false
             }
         }
+    }
+
+    fun main (args: Array<String>){
+        return 
+    }
+
+}
+
+class A {
+    var counter = AtomicInteger(0)
+
+    fun foo() {
+        counter.getAndIncrement()
     }
 }

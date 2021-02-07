@@ -8,7 +8,7 @@ import retrofit2.http.Query
 interface TmdbService {
 
     @GET("configuration")
-    suspend fun getTmdbConfig(): ConfigurationDto
+    suspend fun getTmdbConfig(): Resource<ConfigurationDto>
 
     @GET("movie/top_rated")
     suspend fun getTopRated(

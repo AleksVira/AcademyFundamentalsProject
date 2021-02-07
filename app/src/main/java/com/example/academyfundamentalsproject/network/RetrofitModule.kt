@@ -28,6 +28,7 @@ object RetrofitModule {
     private val retrofit: Retrofit = Retrofit.Builder()
         .client(httpClient)
         .baseUrl(BuildConfig.BASE_URL)
+        .addCallAdapterFactory(ResultAdapterFactory())
         .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
         .build()
 

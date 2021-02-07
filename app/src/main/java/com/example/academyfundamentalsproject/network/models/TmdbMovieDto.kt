@@ -1,9 +1,9 @@
 package com.example.academyfundamentalsproject.network.models
 
 
+import androidx.annotation.Keep
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import androidx.annotation.Keep
 
 @Keep
 @Serializable
@@ -11,7 +11,7 @@ data class TmdbMovieDto(
     @SerialName("adult")
     val adult: Boolean, // false
     @SerialName("backdrop_path")
-    val backdropPath: String, // /fQq1FWp1rC89xDrRMuyFJdFUdMd.jpg
+    val backdropPath: String?, // /fQq1FWp1rC89xDrRMuyFJdFUdMd.jpg
     @SerialName("genre_ids")
     val genreIds: List<Int>,
     @SerialName("id")

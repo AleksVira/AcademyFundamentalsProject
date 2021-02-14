@@ -44,7 +44,6 @@ class FragmentMoviesDetails : Fragment() {
         }
 
         detailBinding.tvBackMarker.setOnClickListener { onBackPressed() }
-
     }
 
     private fun bindDetailMovie(movie: Movie) {

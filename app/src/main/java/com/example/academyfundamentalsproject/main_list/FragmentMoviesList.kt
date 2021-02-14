@@ -31,8 +31,7 @@ class FragmentMoviesList : Fragment() {
             moviesViewModel.changeFavouriteState(movieId)
         })
 
-    private var _binding: FragmentMoviesListBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentMoviesListBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,12 +74,6 @@ class FragmentMoviesList : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        moviesViewModel.clearActors()
-        _binding = null
-    }
-
     private fun fetchMovies() {
         lifecycleScope.launch {
             moviesViewModel.loadPagedMovies().collectLatest { pagingData ->
@@ -89,4 +82,7 @@ class FragmentMoviesList : Fragment() {
         }
     }
 
+//    interface MovieCardClickListener {
+//        fun onMovieCardSelected()
+//    }
 }

@@ -26,9 +26,9 @@ class FragmentMoviesList : Fragment() {
             moviesViewModel.select(movie)
             movieCardClickListener.onMovieCardSelected()
         },
-        onFavoriteClick = { movieId, absPosition  ->
-            Timber.d("MyTAG_FragmentMoviesList_(): $movieId, $absPosition")
-            moviesViewModel.changeFavouriteState(movieId)
+        onFavoriteClick = { movie, absPosition  ->
+            Timber.d("MyTAG_FragmentMoviesList_(): ${movie.id}, $absPosition")
+            moviesViewModel.changeFavouriteState(movie, absPosition)
         })
 
     private lateinit var binding: FragmentMoviesListBinding
@@ -44,7 +44,7 @@ class FragmentMoviesList : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        _binding = FragmentMoviesListBinding.inflate(inflater, container, false)
+        binding = FragmentMoviesListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -55,6 +55,12 @@ class FragmentMoviesList : Fragment() {
         moviesViewModel.updatedMovie.observe(viewLifecycleOwner) { event ->
             event?.handle { movie ->
                 mainListAdapter.updateMovieTime(movie)
+            }
+        }
+
+        moviesViewModel.updatedFavouriteMovie.observe(viewLifecycleOwner) { event ->
+            event?.handle { it ->
+                mainListAdapter.updateFavouriteState(it.first, it.second)
             }
         }
     }
@@ -82,7 +88,7 @@ class FragmentMoviesList : Fragment() {
         }
     }
 
-//    interface MovieCardClickListener {
-//        fun onMovieCardSelected()
-//    }
+    interface MovieCardClickListener {
+        fun onMovieCardSelected()
+    }
 }

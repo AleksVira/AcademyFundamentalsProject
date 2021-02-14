@@ -13,7 +13,7 @@ import timber.log.Timber
 
 class MovieListPagedAdapter(
     private val movieCardClickListener: (Movie) -> Unit,
-    private val onFavoriteClick: (Int, Int) -> Unit,
+    private val onFavoriteClick: (Movie, Int) -> Unit,
 ) : PagingDataAdapter<Movie, MovieViewHolder>(MovieItemDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
@@ -56,6 +56,15 @@ class MovieListPagedAdapter(
             Timber.d("MyTAG_MovieListPagedAdapter_updateMovie(): INDEX = $index ${movieInAdapter.movieLengthMinutes}")
             notifyItemChanged(index, bundle)
         }
+    }
+
+    fun updateFavouriteState(index: Int, movie: Movie) {
+        val bundle = Bundle()
+        bundle.putBoolean(LIKE, movie.isLiked)
+
+        snapshot()[index]?.isLiked = movie.isLiked
+        Timber.d("MyTAG_MovieListPagedAdapter_updateFavouriteState(): Favourite INDEX = $index, newState = ${movie.isLiked}")
+        notifyItemChanged(index, bundle)
     }
 
 }

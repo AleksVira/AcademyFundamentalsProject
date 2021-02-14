@@ -7,16 +7,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.example.academyfundamentalsproject.databinding.ActivityMainBinding
 import com.example.academyfundamentalsproject.main_list.FragmentMoviesList
-import com.example.academyfundamentalsproject.main_list.MovieCardClickListener
 import com.example.academyfundamentalsproject.movie_detail.FragmentMoviesDetails
 import com.example.academyfundamentalsproject.network.helpers.LoadingState
 import com.example.academyfundamentalsproject.network.helpers.LoadingState.Companion.LOADED
 import com.example.academyfundamentalsproject.network.helpers.LoadingState.Companion.LOADING
 import com.example.academyfundamentalsproject.view_models.MoviesViewModel
-import java.util.concurrent.atomic.AtomicInteger
 
 
-class MainActivity : AppCompatActivity(), MovieCardClickListener {
+class MainActivity : AppCompatActivity(), FragmentMoviesList.MovieCardClickListener {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -63,7 +61,6 @@ class MainActivity : AppCompatActivity(), MovieCardClickListener {
         }
         val deviceWidth: Int = outMetrics.widthPixels
         viewModel.saveScreenWidth(deviceWidth)
-
     }
 
     private fun getConfigFromApi() {
@@ -85,25 +82,8 @@ class MainActivity : AppCompatActivity(), MovieCardClickListener {
 
     private fun progressBarVisible(state: LoadingState) {
         when (state) {
-            LOADING -> {
-                binding.progressBar.isVisible = true
-            }
-            LOADED -> {
-                binding.progressBar.isVisible = false
-            }
+            LOADING -> binding.progressBar.isVisible = true
+            LOADED -> binding.progressBar.isVisible = false
         }
-    }
-
-    fun main (args: Array<String>){
-        return 
-    }
-
-}
-
-class A {
-    var counter = AtomicInteger(0)
-
-    fun foo() {
-        counter.getAndIncrement()
     }
 }

@@ -44,9 +44,9 @@ class MoviesViewModel(
     val startMovieList: LiveData<ConsumableValue<Boolean>>
         get() = _startMovieList
 
-    private val _moviesDataList = MutableLiveData<List<Movie>>()
-    val moviesList: LiveData<List<Movie>>
-        get() = _moviesDataList
+    private val _updatedFavouriteMovie = MutableLiveData<ConsumableValue<Pair<Int, Movie>>>()
+    val updatedFavouriteMovie: LiveData<ConsumableValue<Pair<Int, Movie>>>
+        get() = _updatedFavouriteMovie
 
     private val _actorsDataList = MutableLiveData<List<Actor>>()
     val actorsDataList: LiveData<List<Actor>>
@@ -64,26 +64,14 @@ class MoviesViewModel(
         _selectedMovie.postValue(movie)
     }
 
-    fun changeFavouriteState(movieId: Int) {
+    fun changeFavouriteState(movie: Movie, absPosition: Int) {
         viewModelScope.launch {
-            _moviesDataList.postValue(fakeRequestChangeFavouriteState(movieId))
+            _updatedFavouriteMovie.postValue(ConsumableValue(Pair(absPosition, fakeRequestChangeFavouriteState(movie))))
         }
     }
 
-    private fun fakeRequestChangeFavouriteState(movieId: Int): List<Movie>? {
-        val oldList = _moviesDataList.value
-        val oldItem: Movie? = oldList?.find { movie -> movie.id == movieId }
-
-        oldItem?.let {
-            val movieIndex = oldList.indexOf(oldItem)
-            val likeState = oldItem.isLiked
-            val newItem = oldItem.copy(isLiked = !likeState)
-            val newList = oldList.toMutableList()
-            newList[movieIndex] = newItem
-            return newList
-        } ?: run {
-            return oldList
-        }
+    private fun fakeRequestChangeFavouriteState(movie: Movie): Movie {
+        return movie.copy(isLiked = !(movie.isLiked))
     }
 
     fun requestConfig() {

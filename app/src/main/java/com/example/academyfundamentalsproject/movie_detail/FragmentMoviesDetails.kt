@@ -20,15 +20,14 @@ class FragmentMoviesDetails : Fragment() {
 
     private val moviesViewModel by activityViewModels<MoviesViewModel>()
 
-    private var _detailBinding: FragmentMovieDetailsBinding? = null
-    private val detailBinding get() = _detailBinding!!
+    private lateinit var detailBinding: FragmentMovieDetailsBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        _detailBinding = FragmentMovieDetailsBinding.inflate(inflater, container, false)
+        detailBinding = FragmentMovieDetailsBinding.inflate(inflater, container, false)
         return detailBinding.root
     }
 
@@ -92,7 +91,6 @@ class FragmentMoviesDetails : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         moviesViewModel.clearActors()
-        _detailBinding = null
     }
 
 }

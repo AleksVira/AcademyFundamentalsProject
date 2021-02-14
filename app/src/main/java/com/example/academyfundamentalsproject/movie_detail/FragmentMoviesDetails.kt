@@ -15,7 +15,6 @@ import com.example.academyfundamentalsproject.data.Actor
 import com.example.academyfundamentalsproject.databinding.FragmentMovieDetailsBinding
 import com.example.academyfundamentalsproject.repositories.domain.Movie
 import com.example.academyfundamentalsproject.view_models.MoviesViewModel
-import timber.log.Timber
 
 class FragmentMoviesDetails : Fragment() {
 
@@ -23,8 +22,6 @@ class FragmentMoviesDetails : Fragment() {
 
     private var _detailBinding: FragmentMovieDetailsBinding? = null
     private val detailBinding get() = _detailBinding!!
-
-    private lateinit var actorsListAdapter: ActorsListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -78,7 +75,7 @@ class FragmentMoviesDetails : Fragment() {
         if (actorsList?.isNotEmpty() == true) {
             detailBinding.listActors.isVisible = true
             detailBinding.tvCastTitle.isVisible = true
-            actorsListAdapter = ActorsListAdapter(actorsList)
+            val actorsListAdapter = ActorsListAdapter(actorsList)
             detailBinding.listActors.apply {
                 layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                 adapter = actorsListAdapter

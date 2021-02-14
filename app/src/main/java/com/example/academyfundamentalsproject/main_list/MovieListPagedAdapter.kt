@@ -31,10 +31,7 @@ class MovieListPagedAdapter(
         position: Int,
         payloads: MutableList<Any>,
     ) {
-        if (payloads.isEmpty()) {
-            super.onBindViewHolder(holder, position, payloads)
-            return
-        } else {
+        if (payloads.isNotEmpty()) {
             val o = payloads[0] as Bundle
             for (key in o.keySet()) {
                 when (key) {
@@ -42,8 +39,8 @@ class MovieListPagedAdapter(
                     RUNTIME -> holder.updateRuntime(o.getInt(key))
                 }
             }
-            super.onBindViewHolder(holder, position, payloads)
         }
+        super.onBindViewHolder(holder, position, payloads)
     }
 
     fun updateMovieTime(movie: Movie) {

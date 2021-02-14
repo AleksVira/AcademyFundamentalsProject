@@ -12,14 +12,8 @@ data class MovieInfoResponse(
     val adult: Boolean, // false
     @SerialName("backdrop_path")
     val backdropPath: String?, // /fQq1FWp1rC89xDrRMuyFJdFUdMd.jpg
-    @SerialName("belongs_to_collection")
-    val belongsToCollection: BelongsToCollection?,
-    @SerialName("budget")
-    val budget: Int, // 0
     @SerialName("genres")
     val genres: List<Genre>,
-    @SerialName("homepage")
-    val homepage: String,
     @SerialName("id")
     val id: Int?, // 761053
     @SerialName("imdb_id")
@@ -34,14 +28,8 @@ data class MovieInfoResponse(
     val popularity: Double, // 35.019
     @SerialName("poster_path")
     val posterPath: String?, // /fYtHxTxlhzD4QWfEbrC1rypysSD.jpg
-    @SerialName("production_companies")
-    val productionCompanies: List<ProductionCompany>,
-    @SerialName("production_countries")
-    val productionCountries: List<ProductionCountry>,
     @SerialName("release_date")
     val releaseDate: String, // 2020-11-19
-    @SerialName("revenue")
-    val revenue: Int?, // 0
     @SerialName("runtime")
     val runtime: Int, // 105
     @SerialName("spoken_languages")

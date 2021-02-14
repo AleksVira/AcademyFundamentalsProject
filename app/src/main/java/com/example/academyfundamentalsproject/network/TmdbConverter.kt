@@ -38,7 +38,6 @@ class TmdbConverter {
             posterSizes = configuration.images.posterSizes,
             backdropSizes = configuration.images.backdropSizes,
             avatarSizes = configuration.images.profileSizes,
-//            genres = SparseArray<String>()
         )
     }
 

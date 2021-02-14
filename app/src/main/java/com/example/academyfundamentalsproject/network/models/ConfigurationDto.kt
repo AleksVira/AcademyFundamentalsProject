@@ -30,4 +30,3 @@ data class ImagesDto(
 	@SerialName("profile_sizes")
 	val profileSizes: List<String>
 )
-

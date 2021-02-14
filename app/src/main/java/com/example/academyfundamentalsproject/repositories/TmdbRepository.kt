@@ -16,13 +16,13 @@ import com.example.academyfundamentalsproject.repositories.domain.Movie
 import com.example.academyfundamentalsproject.repositories.domain.SingleMovieInfo
 import com.example.academyfundamentalsproject.repositories.domain.TmdbConfigData
 import kotlinx.coroutines.flow.Flow
+import timber.log.Timber
 
 interface TmdbRepository {
     suspend fun getTmdbConfig(): Resource<TmdbConfigData>
     suspend fun getGenres(): SparseArray<String>
-//    suspend fun getNetworkTopRated(): List<Movie>
     fun getPagedNetworkTopRated(): Flow<PagingData<Movie>>
-    suspend fun getMovieInfo(movieId: Int): SingleMovieInfo
+    suspend fun getMovieInfo(movieId: Int): Resource<SingleMovieInfo>
     suspend fun getActors(movieId: Int): List<Actor>?
     fun getAllGenres(): SparseArray<String>
 }
@@ -41,8 +41,6 @@ class TmdbRepositoryImpl(
     override suspend fun getTmdbConfig(): Resource<TmdbConfigData> {
         return when (val networkResult = tmdbService.getTmdbConfig()) {
             is Resource.Success -> {
-//                delay(3000)
-//                return Resource.Failure.HttpError(HttpException(404, "VERY BAD"))
                 val convertResult = converter.toTmdbConfig(networkResult.value)
                 Resource.Success.Value(convertResult)
             }
@@ -51,11 +49,6 @@ class TmdbRepositoryImpl(
         }
     }
 
-//    override suspend fun getNetworkTopRated(): List<Movie> {
-//        val networkMoviesResponse = tmdbService.getTopRated(1)
-//        val networkMovies = networkMoviesResponse.results
-//        return converter.toMoviesList(networkMovies, repoGenres)
-//    }
 
     override fun getPagedNetworkTopRated(): Flow<PagingData<Movie>> {
         return Pager(
@@ -65,9 +58,19 @@ class TmdbRepositoryImpl(
     }
 
 
-    override suspend fun getMovieInfo(movieId: Int): SingleMovieInfo {
-        val networkMovieResponse: MovieInfoResponse = tmdbService.getMovieInfoById(movieId)
-        return converter.toSingleMovieInfo(networkMovieResponse)
+    override suspend fun getMovieInfo(movieId: Int): Resource<SingleMovieInfo> {
+        return when (val networkMovieResponse: Resource<MovieInfoResponse> = tmdbService.getMovieInfoById(movieId)) {
+            is Resource.Success<*> -> {
+                val result = networkMovieResponse.value
+                Timber.d("MyTAG_TmdbRepositoryImpl_getMovieInfo(): $result")
+                Resource.Success.Value(converter.toSingleMovieInfo(result as MovieInfoResponse))
+            }
+            is Resource.Failure.Error -> {
+                Resource.Failure.Error(networkMovieResponse.error)
+            }
+            is Resource.Failure.HttpError -> TODO()
+            Resource.Success.Empty -> TODO()
+        }
     }
 
     override suspend fun getActors(movieId: Int): List<Actor>? {
@@ -82,8 +85,8 @@ class TmdbRepositoryImpl(
     override suspend fun getGenres(): SparseArray<String> {
         val networkResponse: GenresResponse = tmdbService.getGenres()
         repoGenres = converter.toGenresList(networkResponse)
+        Timber.d("MyTAG_TmdbRepositoryImpl_getGenres(): $repoGenres")
         return repoGenres
     }
-
 
 }

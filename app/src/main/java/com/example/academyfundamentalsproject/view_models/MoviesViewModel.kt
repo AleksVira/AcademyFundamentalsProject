@@ -17,7 +17,6 @@ import com.example.academyfundamentalsproject.repositories.TmdbRepository
 import com.example.academyfundamentalsproject.repositories.domain.Movie
 import com.example.academyfundamentalsproject.repositories.domain.TmdbConfigData
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -29,6 +28,7 @@ class MoviesViewModel(
 ) : ViewModel() {
 
     private var screenWidth: Int = 0
+    lateinit var apiConfig: TmdbConfigData
 
     private var currentMovieResult: Flow<PagingData<Movie>>? = null
 
@@ -40,9 +40,9 @@ class MoviesViewModel(
     val networkErrorState: LiveData<String>
         get() = _networkErrorState
 
-    private val _apiConfig = MutableLiveData<TmdbConfigData>()
-    val apiConfig: LiveData<TmdbConfigData>
-        get() = _apiConfig
+    private val _startMovieList = MutableLiveData<ConsumableValue<Boolean>>()
+    val startMovieList: LiveData<ConsumableValue<Boolean>>
+        get() = _startMovieList
 
     private val _moviesDataList = MutableLiveData<List<Movie>>()
     val moviesList: LiveData<List<Movie>>
@@ -56,14 +56,12 @@ class MoviesViewModel(
     val selectedMovie: LiveData<Movie>
         get() = _selectedMovie
 
-    private val _updatedMovie = MutableLiveData<Int>()
-    val updatedMovie: LiveData<Int>
+    private val _updatedMovie = MutableLiveData<ConsumableValue<Movie>>()
+    val updatedMovie: LiveData<ConsumableValue<Movie>>
         get() = _updatedMovie
 
-
-
-    fun select(movieId: Int) {
-        _selectedMovie.postValue(_moviesDataList.value?.find { movie -> movie.id == movieId })
+    fun select(movie: Movie) {
+        _selectedMovie.postValue(movie)
     }
 
     fun changeFavouriteState(movieId: Int) {
@@ -94,70 +92,35 @@ class MoviesViewModel(
                 _loadingState.value = ConsumableValue(LOADING)
                 _networkErrorState.value = ""
 
-                val genresDeferredResponse = async(Dispatchers.IO) {
+                val jobGenresResponse = launch(Dispatchers.IO) {
                     repository.getGenres()
                 }
-                val configDeferredResponse = async(Dispatchers.IO) {
+                val jobConfigResponse = launch(Dispatchers.IO) {
                     when (val networkResponse = repository.getTmdbConfig()) {
                         is Resource.Success -> {
-                            networkResponse.value
+                            Timber.d("MyTAG_MoviesViewModel_requestConfig(): ${networkResponse.value}")
+                            apiConfig = networkResponse.value
                         }
                         is Resource.Failure<*> -> {
                             Throwable("MESSAGE")
-                            errorHandler(networkResponse.error)
                         }
                         is Resource.Failure.HttpError -> TODO()
                         is Resource.Success.Empty -> TODO()
                     }
                 }
-
-//                delay(1000)
-                try {
-                    val genresResponse = genresDeferredResponse.await()
-                    val configResponse = configDeferredResponse.await()
-                    Timber.d("MyTAG_MoviesViewModel_requestConfig(): $genresResponse, $configResponse")
-//                    yield()
-                    _apiConfig.postValue(configResponse as TmdbConfigData?)
+                jobGenresResponse.join()
+                jobConfigResponse.join()
+                withContext(Dispatchers.Main) {
                     _loadingState.value = ConsumableValue(LOADED)
-                } catch (e: Exception) {
-                    Timber.d("MyTAG_MoviesViewModel_requestConfig(): CATCH ERROR ? ${e.message}")
-                } finally {
-                    Timber.d("MyTAG_MoviesViewModel_requestConfig(): FINALLY")
+                    _startMovieList.value = ConsumableValue(true)
                 }
             }
         }
     }
-
-    private fun errorHandler(error: Throwable?) {
-        Timber.d("MyTAG_MoviesViewModel_errorHandler(): $error")
-
-    }
-
-/*    fun loadRealMovies() {
-        viewModelScope.launch {
-            withContext(Dispatchers.Main) {
-                _loadingState.value = ConsumableValue(LOADING)
-                _networkErrorState.value = ""
-//                delay(2000)
-                val moviesResponse = withContext(Dispatchers.IO) {
-                    repository.getNetworkTopRated()
-                }
-                Timber.d("MyTAG_MoviesViewModel_loadRealMovies(): $moviesResponse")
-                withContext(Dispatchers.Default) {
-                    setPicturesUrl(moviesResponse)
-                }
-                _moviesDataList.postValue(moviesResponse)
-                _loadingState.value = ConsumableValue(LOADED)
-                // Для каждого фильма запрашиваю доп.данные (нужно узнать длительность)
-                loadSingleDurations(moviesResponse)
-            }
-        }
-    }*/
-
 
     fun loadPagedMovies(): Flow<PagingData<Movie>> {
-        val posterSizeParameter = selectImageWidth(apiConfig.value?.posterSizes, screenWidth / 2)
-        val backdropImageSizeParameter = selectImageWidth(apiConfig.value?.backdropSizes, screenWidth)
+        val posterSizeParameter = selectImageWidth(apiConfig.posterSizes, screenWidth / 2)
+        val backdropImageSizeParameter = selectImageWidth(apiConfig.backdropSizes, screenWidth)
 
         val lastResult = currentMovieResult
         if (lastResult != null) {
@@ -169,11 +132,11 @@ class MoviesViewModel(
                 Timber.d("MyTAG_MoviesViewModel_loadPagedMovies(): ${pagingData}")
                 pagingData.map { currentMovie ->
 
-//                    loadSingleDurations(currentMovie)
+                    updateMovieDuration(currentMovie)
 
                     currentMovie.copy(
-                        posterUrl = apiConfig.value?.secureBaseUrl + posterSizeParameter + currentMovie.posterUrl,
-                        backdropImageUrl = apiConfig.value?.secureBaseUrl + backdropImageSizeParameter + currentMovie.backdropImageUrl,
+                        posterUrl = apiConfig.secureBaseUrl + posterSizeParameter + currentMovie.posterUrl,
+                        backdropImageUrl = apiConfig.secureBaseUrl + backdropImageSizeParameter + currentMovie.backdropImageUrl,
                     )
                 }
             }
@@ -181,20 +144,6 @@ class MoviesViewModel(
         currentMovieResult = newResult
         return newResult
     }
-
-/*    private fun setPicturesUrl(moviesResponse: List<Movie>) {
-        val posterSizeParameter = selectImageWidth(apiConfig.value?.posterSizes, screenWidth / 2)
-        val backdropImageSizeParameter = selectImageWidth(apiConfig.value?.backdropSizes, screenWidth)
-
-        moviesResponse.forEach { movie ->
-            val posterTmpUrl =
-                apiConfig.value?.secureBaseUrl + posterSizeParameter + movie.posterUrl
-            movie.posterUrl = posterTmpUrl
-            val backdropImageTmpUrl =
-                apiConfig.value?.secureBaseUrl + backdropImageSizeParameter + movie.backdropImageUrl
-            movie.backdropImageUrl = backdropImageTmpUrl
-        }
-    }*/
 
     private fun selectImageWidth(posterSizes: List<String>?, widthLimit: Int): String {
         val reversedSizes = posterSizes?.asReversed()
@@ -210,44 +159,36 @@ class MoviesViewModel(
         return "original"
     }
 
-
     fun saveScreenWidth(deviceWidth: Int) {
         Timber.d("MyTAG_MoviesViewModel_saveScreenWidth(): REAL WIDTH = $deviceWidth")
         screenWidth = deviceWidth
     }
 
-
-    private fun loadSingleDurations(moviesList: List<Movie>) {
+    private fun updateMovieDuration(movie: Movie) {
+        Timber.d("MyTAG_MoviesViewModel_updateMovieDuration(): START UPDATE")
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                moviesList.forEachIndexed() { index, movie ->
-//                    delay(1000)
-                    val additionalInfo = repository.getMovieInfo(movie.id)
-                    moviesList[index].movieLengthMinutes = additionalInfo.runtime
-                    withContext(Dispatchers.Main) {
-                        _updatedMovie.value = index
+                when (val additionalInfo = repository.getMovieInfo(movie.id)) {
+                    is Resource.Success.Value -> {
+                        val resultMovie: Movie = movie.copy(movieLengthMinutes = additionalInfo.value.runtime)
+                        Timber.d("MyTAG_MoviesViewModel_loadSingleDurations(): ${movie.movieName} -> ${additionalInfo.value.runtime}")
+                        withContext(Dispatchers.Main) {
+                            _updatedMovie.value = ConsumableValue(resultMovie)
+                        }
                     }
+
+                    is Resource.Failure.Error -> {
+                        Timber.e("MyTAG_MoviesViewModel_loadSingleDurations(): ${additionalInfo.error.message}, ${additionalInfo.error.stackTrace}")
+
+                        Resource.Failure.Error(Throwable(additionalInfo.error.message))
+                    }
+                    is Resource.Failure.HttpError -> TODO()
+                    Resource.Success.Empty -> TODO()
+                    is Resource.Success.HttpResponseImpl -> TODO()
                 }
             }
         }
     }
-
-/*
-    private fun loadOneMovieDurations(moviesList: List<Movie>) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                moviesList.forEachIndexed() { index, movie ->
-//                    delay(1000)
-                    val additionalInfo = repository.getMovieInfo(movie.id)
-                    moviesList[index].movieLengthMinutes = additionalInfo.runtime
-                    withContext(Dispatchers.Main) {
-                        _updatedMovie.value = index
-                    }
-                }
-            }
-        }
-    }
-*/
 
     fun loadActorsFromNetwork(movie: Movie) {
         viewModelScope.launch {
@@ -268,13 +209,13 @@ class MoviesViewModel(
     }
 
     private fun setAvatarUrl(actorsResponse: List<Actor>?) {
-        val avatarSizeParameter = selectImageWidth(apiConfig.value?.avatarSizes, screenWidth / 4)
+        val avatarSizeParameter = selectImageWidth(apiConfig.avatarSizes, screenWidth / 4)
         actorsResponse?.forEach { actor ->
             if (actor.imageUrl.isEmpty()) {
                 return
             }
             val avatarTmpUrl =
-                apiConfig.value?.secureBaseUrl + avatarSizeParameter + actor.imageUrl
+                apiConfig.secureBaseUrl + avatarSizeParameter + actor.imageUrl
             actor.imageUrl = avatarTmpUrl
         }
     }

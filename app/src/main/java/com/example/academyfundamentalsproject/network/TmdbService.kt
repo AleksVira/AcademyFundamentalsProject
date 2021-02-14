@@ -22,7 +22,7 @@ interface TmdbService {
     @GET("movie/{movie_id}")
     suspend fun getMovieInfoById(
         @Path("movie_id") movieId: Int
-    ): MovieInfoResponse
+    ): Resource<MovieInfoResponse>
 
     @GET("movie/{movie_id}/credits")
     suspend fun getActorsById(

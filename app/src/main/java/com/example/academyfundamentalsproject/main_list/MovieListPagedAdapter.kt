@@ -4,15 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.ListAdapter
 import com.example.academyfundamentalsproject.databinding.ViewHolderMovieBinding
 import com.example.academyfundamentalsproject.main_list.MovieItemDiffCallback.Companion.LIKE
 import com.example.academyfundamentalsproject.main_list.MovieItemDiffCallback.Companion.RUNTIME
 import com.example.academyfundamentalsproject.repositories.domain.Movie
+import timber.log.Timber
 
 
 class MovieListPagedAdapter(
-    private val movieCardClickListener: (Int) -> Unit,
+    private val movieCardClickListener: (Movie) -> Unit,
     private val onFavoriteClick: (Int, Int) -> Unit,
 ) : PagingDataAdapter<Movie, MovieViewHolder>(MovieItemDiffCallback()) {
 
@@ -46,9 +46,19 @@ class MovieListPagedAdapter(
         }
     }
 
-    fun getMovie() {
-        this
-    }
+    fun updateMovieTime(movie: Movie) {
+        val movieInAdapter = snapshot().find {
+            it?.id == movie.id
+        }
+        movieInAdapter?.let {
+            val bundle = Bundle()
+            bundle.putInt(RUNTIME, movie.movieLengthMinutes)
+            it.movieLengthMinutes = movie.movieLengthMinutes
 
+            val index = snapshot().indexOf(it)
+            Timber.d("MyTAG_MovieListPagedAdapter_updateMovie(): INDEX = $index ${movieInAdapter.movieLengthMinutes}")
+            notifyItemChanged(index, bundle)
+        }
+    }
 
 }

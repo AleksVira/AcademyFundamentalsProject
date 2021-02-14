@@ -2,7 +2,6 @@ package com.example.academyfundamentalsproject.network
 
 import android.util.SparseArray
 import com.example.academyfundamentalsproject.data.Actor
-import com.example.academyfundamentalsproject.data.ApiConfig
 import com.example.academyfundamentalsproject.data.Images
 import com.example.academyfundamentalsproject.network.models.*
 import com.example.academyfundamentalsproject.repositories.domain.Movie
@@ -39,7 +38,7 @@ class TmdbConverter {
             posterSizes = configuration.images.posterSizes,
             backdropSizes = configuration.images.backdropSizes,
             avatarSizes = configuration.images.profileSizes,
-            genres = SparseArray<String>()
+//            genres = SparseArray<String>()
         )
     }
 

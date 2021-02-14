@@ -4,13 +4,13 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.academyfundamentalsproject.R
-import com.example.academyfundamentalsproject.repositories.domain.Movie
 import com.example.academyfundamentalsproject.databinding.ViewHolderMovieBinding
+import com.example.academyfundamentalsproject.repositories.domain.Movie
 
 class MovieViewHolder(
     private val movieBinding: ViewHolderMovieBinding,
     private val onFavoriteClick: (Int, Int) -> Unit,
-    private val movieCardClickListener: (Int) -> Unit,
+    private val movieCardClickListener: (Movie) -> Unit,
 ) : RecyclerView.ViewHolder(movieBinding.root) {
 
     fun bindMovie(movie: Movie) {
@@ -41,7 +41,7 @@ class MovieViewHolder(
                 onFavoriteClick(movie.id, absoluteAdapterPosition)
             }
             root.setOnClickListener { _ ->
-                movieCardClickListener(movie.id)
+                movieCardClickListener(movie)
             }
         }
     }

@@ -13,7 +13,6 @@ import com.example.academyfundamentalsproject.network.helpers.LoadingState
 import com.example.academyfundamentalsproject.network.helpers.LoadingState.Companion.LOADED
 import com.example.academyfundamentalsproject.network.helpers.LoadingState.Companion.LOADING
 import com.example.academyfundamentalsproject.view_models.MoviesViewModel
-import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
 
 
@@ -39,8 +38,10 @@ class MainActivity : AppCompatActivity(), MovieCardClickListener {
     }
 
     private fun subscribeData() {
-        viewModel.apiConfig.observe(this) { config ->
-            startMovieList()
+        viewModel.startMovieList.observe(this) { event ->
+            event?.handle {
+                startMovieList()
+            }
         }
         viewModel.loadingState.observe(this) { event ->
             event.handle { state ->

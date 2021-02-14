@@ -1,9 +1,9 @@
 package com.example.academyfundamentalsproject.network.models
 
 
+import androidx.annotation.Keep
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import androidx.annotation.Keep
 
 @Keep
 @Serializable
@@ -11,7 +11,7 @@ data class MovieInfoResponse(
     @SerialName("adult")
     val adult: Boolean, // false
     @SerialName("backdrop_path")
-    val backdropPath: String, // /fQq1FWp1rC89xDrRMuyFJdFUdMd.jpg
+    val backdropPath: String?, // /fQq1FWp1rC89xDrRMuyFJdFUdMd.jpg
     @SerialName("belongs_to_collection")
     val belongsToCollection: BelongsToCollection?,
     @SerialName("budget")
@@ -33,7 +33,7 @@ data class MovieInfoResponse(
     @SerialName("popularity")
     val popularity: Double, // 35.019
     @SerialName("poster_path")
-    val posterPath: String, // /fYtHxTxlhzD4QWfEbrC1rypysSD.jpg
+    val posterPath: String?, // /fYtHxTxlhzD4QWfEbrC1rypysSD.jpg
     @SerialName("production_companies")
     val productionCompanies: List<ProductionCompany>,
     @SerialName("production_countries")

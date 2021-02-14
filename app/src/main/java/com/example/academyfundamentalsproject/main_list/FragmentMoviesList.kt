@@ -11,7 +11,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.academyfundamentalsproject.R
 import com.example.academyfundamentalsproject.databinding.FragmentMoviesListBinding
-import com.example.academyfundamentalsproject.main_list.MovieItemDiffCallback.Companion.RUNTIME
 import com.example.academyfundamentalsproject.view_models.MoviesViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -23,8 +22,8 @@ class FragmentMoviesList : Fragment() {
 
     private lateinit var movieCardClickListener: MovieCardClickListener
     private var mainListAdapter = MovieListPagedAdapter(
-        movieCardClickListener = { movieId ->
-            moviesViewModel.select(movieId)
+        movieCardClickListener = { movie ->
+            moviesViewModel.select(movie)
             movieCardClickListener.onMovieCardSelected()
         },
         onFavoriteClick = { movieId, absPosition  ->
@@ -39,7 +38,6 @@ class FragmentMoviesList : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fetchMovies()
-//        moviesViewModel.loadRealMovies()
     }
 
     override fun onCreateView(
@@ -54,14 +52,11 @@ class FragmentMoviesList : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-//        moviesViewModel.moviesList.observe(viewLifecycleOwner) { movieList ->
-//            mainListAdapter.submitList(movieList)
-//        }
 
-        moviesViewModel.updatedMovie.observe(viewLifecycleOwner) { index ->
-            val bundle = Bundle()
-            bundle.putInt(RUNTIME, moviesViewModel.moviesList.value?.get(index)?.movieLengthMinutes ?: 0)
-            mainListAdapter.notifyItemChanged(index, bundle)
+        moviesViewModel.updatedMovie.observe(viewLifecycleOwner) { event ->
+            event?.handle { movie ->
+                mainListAdapter.updateMovieTime(movie)
+            }
         }
     }
 

@@ -34,7 +34,7 @@
             android:layout_height="0dp"
             android:contentDescription="@string/detail_backdrop_description"
             android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="@+id/guidelineDetail"
+            app:layout_constraintBottom_toBottomOf="@id/guidelineDetail"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -47,10 +47,10 @@
             android:contentDescription="@string/picture_shadow_description"
             android:scaleType="centerCrop"
             android:src="@drawable/detail_mask"
-            app:layout_constraintBottom_toBottomOf="@+id/ivDetailBackdrop"
-            app:layout_constraintEnd_toEndOf="@+id/ivDetailBackdrop"
-            app:layout_constraintStart_toStartOf="@+id/ivDetailBackdrop"
-            app:layout_constraintTop_toTopOf="@+id/ivDetailBackdrop" />
+            app:layout_constraintBottom_toBottomOf="@id/ivDetailBackdrop"
+            app:layout_constraintEnd_toEndOf="@id/ivDetailBackdrop"
+            app:layout_constraintStart_toStartOf="@id/ivDetailBackdrop"
+            app:layout_constraintTop_toTopOf="@id/ivDetailBackdrop" />
 
         <TextView
             android:id="@+id/tvBackMarker"
@@ -84,8 +84,8 @@
             android:fontFamily="@font/roboto_black"
             android:textColor="@color/white"
             android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/guidelineDetail"
-            app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+            app:layout_constraintBottom_toTopOf="@id/guidelineDetail"
+            app:layout_constraintStart_toStartOf="@id/guidelineLeft"
             tools:text="1+" />
 
         <TextView
@@ -99,8 +99,8 @@
             android:textColor="@color/white"
             android:textSize="40sp"
             app:layout_constraintEnd_toEndOf="@+id/guidelineRight"
-            app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-            app:layout_constraintTop_toBottomOf="@+id/tvAgeCategory"
+            app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+            app:layout_constraintTop_toBottomOf="@id/tvAgeCategory"
             tools:text="Avengers:\nEnd Game" />
 
         <TextView
@@ -111,21 +111,21 @@
             android:fontFamily="@font/roboto_light"
             android:textColor="@color/taglineText"
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="@+id/guidelineRight"
-            app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-            app:layout_constraintTop_toBottomOf="@+id/tvMovieName"
+            app:layout_constraintEnd_toEndOf="@id/guidelineRight"
+            app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+            app:layout_constraintTop_toBottomOf="@id/tvMovieName"
             tools:text="Action, Adventure, Fantasy" />
 
-        <com.example.academyfundamentalsproject.utils.CustomFiveStarsRating
+        <com.example.academyfundamentalsproject.common.CustomFiveStarsRating
             android:id="@+id/customMovieRating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:emptyStarImage="@drawable/ic_star_icon_empty"
             app:fullFilledStarImage="@drawable/ic_star_icon_filled"
             app:halfFilledStarImage="@drawable/ic_star_icon_1_2"
-            app:layout_constraintBottom_toBottomOf="@+id/tvReviewsCounter"
-            app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-            app:layout_constraintTop_toTopOf="@+id/tvReviewsCounter"
+            app:layout_constraintBottom_toBottomOf="@id/tvReviewsCounter"
+            app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+            app:layout_constraintTop_toTopOf="@id/tvReviewsCounter"
             app:numberOfStars="5"
             app:quarterFilledStarImage="@drawable/ic_star_icon_1_4"
             app:starSize="12dp"
@@ -142,9 +142,9 @@
             android:fontFamily="@font/roboto_black"
             android:textColor="@color/rating_background"
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="@+id/guidelineRight"
-            app:layout_constraintStart_toEndOf="@+id/customMovieRating"
-            app:layout_constraintTop_toBottomOf="@+id/tvTagLine"
+            app:layout_constraintEnd_toEndOf="@id/guidelineRight"
+            app:layout_constraintStart_toEndOf="@id/customMovieRating"
+            app:layout_constraintTop_toBottomOf="@id/tvTagLine"
             tools:text="125 Reviews" />
 
         <TextView
@@ -156,9 +156,9 @@
             android:text="@string/storyline"
             android:textColor="@color/movie_white"
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="@+id/guidelineRight"
-            app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-            app:layout_constraintTop_toBottomOf="@+id/tvReviewsCounter" />
+            app:layout_constraintEnd_toEndOf="@id/guidelineRight"
+            app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+            app:layout_constraintTop_toBottomOf="@id/tvReviewsCounter" />
 
         <TextView
             android:id="@+id/tvStorylineContent"
@@ -173,7 +173,7 @@
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvStorylineTitle"
+            app:layout_constraintTop_toBottomOf="@id/tvStorylineTitle"
             tools:text="@string/tmp_text_4" />
 
 
@@ -189,7 +189,7 @@
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvStorylineContent" />
+            app:layout_constraintTop_toBottomOf="@id/tvStorylineContent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listActors"
@@ -200,7 +200,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvCastTitle"
+            app:layout_constraintTop_toBottomOf="@id/tvCastTitle"
             tools:itemCount="4"
             tools:listitem="@layout/view_holder_actor" />
 

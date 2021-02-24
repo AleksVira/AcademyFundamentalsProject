@@ -1,4 +1,4 @@
-package com.example.academyfundamentalsproject.utils
+package com.example.academyfundamentalsproject.common
 
 import android.content.Context
 import android.util.AttributeSet

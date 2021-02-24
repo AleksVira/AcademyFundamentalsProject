@@ -8,4 +8,5 @@
     <dimen name="movie_grid_spacing">@dimen/size_2x</dimen>
     <dimen name="actors_list_spacing">@dimen/size_x</dimen>
     <dimen name="actor_icon_size">80dp</dimen>
+    <dimen name="progress_bar_dimens">60dp</dimen>
 </resources>

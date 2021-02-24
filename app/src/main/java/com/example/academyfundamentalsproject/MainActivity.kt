@@ -1,20 +1,76 @@
 package com.example.academyfundamentalsproject
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.DisplayMetrics
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import com.example.academyfundamentalsproject.databinding.ActivityMainBinding
 import com.example.academyfundamentalsproject.main_list.FragmentMoviesList
 import com.example.academyfundamentalsproject.movie_detail.FragmentMoviesDetails
+import com.example.academyfundamentalsproject.network.helpers.LoadingState
+import com.example.academyfundamentalsproject.network.helpers.LoadingState.Companion.LOADED
+import com.example.academyfundamentalsproject.network.helpers.LoadingState.Companion.LOADING
+import com.example.academyfundamentalsproject.view_models.MoviesViewModel
+
 
 class MainActivity : AppCompatActivity(), FragmentMoviesList.MovieCardClickListener {
+
+    private lateinit var binding: ActivityMainBinding
+
+    private val viewModel: MoviesViewModel by viewModels() {
+        MoviesViewModelFactory(Injection.tmdbRepository)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.Theme_AcademyFundamentalsProject)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .add(R.id.fragmentHolder, FragmentMoviesList())
-                .commit()
+            getConfigFromApi()
+            detectSizes()
+            subscribeData()
         }
+    }
+
+    private fun subscribeData() {
+        viewModel.startMovieList.observe(this) { event ->
+            event?.handle {
+                startMovieList()
+            }
+        }
+        viewModel.loadingState.observe(this) { event ->
+            event.handle { state ->
+                progressBarVisible(state)
+            }
+        }
+    }
+
+    private fun detectSizes() {
+        val outMetrics = DisplayMetrics()
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+            val display = display
+            display?.getRealMetrics(outMetrics)
+        } else {
+            @Suppress("DEPRECATION")
+            val display = windowManager.defaultDisplay
+            @Suppress("DEPRECATION")
+            display.getMetrics(outMetrics)
+        }
+        val deviceWidth: Int = outMetrics.widthPixels
+        viewModel.saveScreenWidth(deviceWidth)
+    }
+
+    private fun getConfigFromApi() {
+        viewModel.requestConfig()
+    }
+
+    private fun startMovieList() {
+        supportFragmentManager.beginTransaction()
+            .add(R.id.fragmentHolder, FragmentMoviesList())
+            .commit()
     }
 
     override fun onMovieCardSelected() {
@@ -22,5 +78,12 @@ class MainActivity : AppCompatActivity(), FragmentMoviesList.MovieCardClickListe
             .replace(R.id.fragmentHolder, FragmentMoviesDetails())
             .addToBackStack(FragmentMoviesDetails::class.java.name)
             .commit()
+    }
+
+    private fun progressBarVisible(state: LoadingState) {
+        when (state) {
+            LOADING -> binding.progressBar.isVisible = true
+            LOADED -> binding.progressBar.isVisible = false
+        }
     }
 }

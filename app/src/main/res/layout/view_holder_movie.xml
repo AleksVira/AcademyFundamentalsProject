@@ -29,17 +29,16 @@
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.ItemTopCornerSize8dp"
         tools:src="@drawable/item_movie_bckgrnd" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivShadowMask"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="fitXY"
         android:src="@drawable/movie_mask"
-        app:layout_constraintBottom_toBottomOf="@+id/ivItemMoviePicture"
-        app:layout_constraintEnd_toEndOf="@+id/ivItemMoviePicture"
-        app:layout_constraintStart_toStartOf="@+id/ivItemMoviePicture"
-        app:layout_constraintTop_toTopOf="@+id/ivItemMoviePicture"
-        android:contentDescription="@string/picture_shadow_description" />
+        app:layout_constraintBottom_toBottomOf="@id/ivItemMoviePicture"
+        app:layout_constraintEnd_toEndOf="@id/ivItemMoviePicture"
+        app:layout_constraintStart_toStartOf="@id/ivItemMoviePicture"
+        app:layout_constraintTop_toTopOf="@id/ivItemMoviePicture" />
 
     <TextView
         android:id="@+id/tvParentalGuidanceMark"
@@ -56,17 +55,16 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="0+" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivMovieLike"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/half_x_size"
         android:padding="@dimen/half_x_size"
         android:src="@drawable/ic_like"
-        app:layout_constraintBottom_toBottomOf="@+id/tvParentalGuidanceMark"
+        app:layout_constraintBottom_toBottomOf="@id/tvParentalGuidanceMark"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvParentalGuidanceMark"
-        android:contentDescription="@string/like_sign_description" />
+        app:layout_constraintTop_toTopOf="@id/tvParentalGuidanceMark" />
 
     <TextView
         android:id="@+id/tvLengthMin"
@@ -93,12 +91,12 @@
         android:paddingTop="@dimen/half_x_size"
         android:textColor="@color/movie_white"
         android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/tvLengthMin"
+        app:layout_constraintBottom_toTopOf="@id/tvLengthMin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:text="Avengers: End Game" />
 
-    <com.example.academyfundamentalsproject.utils.CustomFiveStarsRating
+    <com.example.academyfundamentalsproject.common.CustomFiveStarsRating
         android:id="@+id/customItemMovieRating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -106,9 +104,9 @@
         app:emptyStarImage="@drawable/ic_star_icon_empty"
         app:fullFilledStarImage="@drawable/ic_star_icon_filled"
         app:halfFilledStarImage="@drawable/ic_star_icon_1_2"
-        app:layout_constraintBottom_toBottomOf="@+id/tvReviewsCounter"
+        app:layout_constraintBottom_toBottomOf="@id/tvReviewsCounter"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvReviewsCounter"
+        app:layout_constraintTop_toTopOf="@id/tvReviewsCounter"
         app:numberOfStars="5"
         app:quarterFilledStarImage="@drawable/ic_star_icon_1_4"
         app:starSize="8dp"
@@ -125,7 +123,7 @@
         android:textColor="@color/rating_background"
         android:textSize="8sp"
         app:layout_constraintBottom_toBottomOf="@id/ivItemMoviePicture"
-        app:layout_constraintStart_toEndOf="@+id/customItemMovieRating"
+        app:layout_constraintStart_toEndOf="@id/customItemMovieRating"
         app:layout_goneMarginBottom="50dp"
         app:textAllCaps="true"
         tools:text="125 Reviews" />

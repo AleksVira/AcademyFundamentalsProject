@@ -8,21 +8,19 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.academyfundamentalsproject.R
-import com.example.academyfundamentalsproject.data.Movie
+import com.example.academyfundamentalsproject.common.ActorsListSpaceDecorator
+import com.example.academyfundamentalsproject.data.Actor
 import com.example.academyfundamentalsproject.databinding.FragmentMovieDetailsBinding
-import com.example.academyfundamentalsproject.main_list.MoviesViewModel
-import com.example.academyfundamentalsproject.utils.ActorsListSpaceDecorator
+import com.example.academyfundamentalsproject.repositories.domain.Movie
+import com.example.academyfundamentalsproject.view_models.MoviesViewModel
 
 class FragmentMoviesDetails : Fragment() {
 
     private val moviesViewModel by activityViewModels<MoviesViewModel>()
 
     private lateinit var detailBinding: FragmentMovieDetailsBinding
-
-    private lateinit var actorsListAdapter: ActorsListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,19 +35,25 @@ class FragmentMoviesDetails : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         moviesViewModel.selectedMovie.observe(viewLifecycleOwner, { movieData ->
+            moviesViewModel.loadActorsFromNetwork(movieData)
             bindDetailMovie(movieData)
         })
+        moviesViewModel.actorsDataList.observe(viewLifecycleOwner) { actorsList ->
+            showActors(actorsList)
+        }
 
-        detailBinding.tvBackMarker.setOnClickListener { activity?.onBackPressed() }
+        detailBinding.tvBackMarker.setOnClickListener { onBackPressed() }
     }
 
     private fun bindDetailMovie(movie: Movie) {
-        val genreString = movie.genresList.joinToString { genre -> genre.name }
-
+        val genreString = movie.genresList.joinToString()
         with(detailBinding) {
 
+            tvCastTitle.isVisible = false
+            listActors.isVisible = false
+
             Glide.with(requireContext())
-                .load(movie.detailImageUrl)
+                .load(movie.backdropImageUrl)
                 .placeholder(R.drawable.vertical_background)
                 .fallback(R.drawable.vertical_background)
                 .into(ivDetailBackdrop)
@@ -62,20 +66,31 @@ class FragmentMoviesDetails : Fragment() {
             tvStorylineTitle.text = getString(R.string.storyline)
             tvStorylineContent.text = movie.storyLine
 
-            if (movie.actorsList.isNotEmpty()) {
-                tvCastTitle.isVisible = true
-                actorsListAdapter = ActorsListAdapter(movie.actorsList)
-                initActorsList()
-            } else {
-                tvCastTitle.isVisible = false
-            }
-        }    }
-
-    private fun initActorsList() {
-        detailBinding.listActors.apply {
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            adapter = actorsListAdapter
-            addItemDecoration(ActorsListSpaceDecorator(space = resources.getDimensionPixelSize(R.dimen.actors_list_spacing)))
         }
     }
+
+    private fun showActors(actorsList: List<Actor>?) {
+        if (actorsList?.isNotEmpty() == true) {
+            detailBinding.listActors.isVisible = true
+            detailBinding.tvCastTitle.isVisible = true
+            val actorsListAdapter = ActorsListAdapter(actorsList)
+            detailBinding.listActors.apply {
+                layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                adapter = actorsListAdapter
+                addItemDecoration(ActorsListSpaceDecorator(space = resources.getDimensionPixelSize(R.dimen.actors_list_spacing)))
+            }
+        } else {
+            detailBinding.tvCastTitle.isVisible = false
+        }
+    }
+
+    private fun onBackPressed() {
+        activity?.onBackPressed()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        moviesViewModel.clearActors()
+    }
+
 }

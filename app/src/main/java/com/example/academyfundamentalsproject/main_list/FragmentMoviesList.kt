@@ -7,26 +7,37 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.academyfundamentalsproject.R
 import com.example.academyfundamentalsproject.databinding.FragmentMoviesListBinding
-import com.example.academyfundamentalsproject.utils.MovieGridSpaceDecorator
+import com.example.academyfundamentalsproject.view_models.MoviesViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class FragmentMoviesList : Fragment() {
 
     private val moviesViewModel by activityViewModels<MoviesViewModel>()
 
     private lateinit var movieCardClickListener: MovieCardClickListener
-    private var mainListAdapter = MovieListAdapter(
+    private var mainListAdapter = MovieListPagedAdapter(
         movieCardClickListener = { movie ->
             moviesViewModel.select(movie)
             movieCardClickListener.onMovieCardSelected()
         },
-        onFavoriteClick = { movie ->
-            moviesViewModel.changeFavouriteState(movie)
+        onFavoriteClick = { movie, absPosition  ->
+            Timber.d("MyTAG_FragmentMoviesList_(): ${movie.id}, $absPosition")
+            moviesViewModel.changeFavouriteState(movie, absPosition)
         })
 
     private lateinit var binding: FragmentMoviesListBinding
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        fetchMovies()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,9 +51,18 @@ class FragmentMoviesList : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-        moviesViewModel.moviesList.observe(viewLifecycleOwner, { movieList ->
-            mainListAdapter.submitList(movieList)
-        })
+
+        moviesViewModel.updatedMovie.observe(viewLifecycleOwner) { event ->
+            event?.handle { movie ->
+                mainListAdapter.updateMovieTime(movie)
+            }
+        }
+
+        moviesViewModel.updatedFavouriteMovie.observe(viewLifecycleOwner) { event ->
+            event?.handle { it ->
+                mainListAdapter.updateFavouriteState(it.first, it.second)
+            }
+        }
     }
 
     private fun initView() {
@@ -57,6 +77,14 @@ class FragmentMoviesList : Fragment() {
         super.onAttach(context)
         if (context is MovieCardClickListener) {
             movieCardClickListener = context
+        }
+    }
+
+    private fun fetchMovies() {
+        lifecycleScope.launch {
+            moviesViewModel.loadPagedMovies().collectLatest { pagingData ->
+                mainListAdapter.submitData(pagingData)
+            }
         }
     }
 

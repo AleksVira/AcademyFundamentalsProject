@@ -189,7 +189,7 @@ class MoviesViewModel(
                     withContext(Dispatchers.Default) {
                         setAvatarUrl(actorsResponse)
                     }
-                    _actorsDataList.postValue(actorsResponse)
+                    _actorsDataList.postValue(actorsResponse!!)
                 }
             }
             _loadingState.value = ConsumableValue(LOADED)

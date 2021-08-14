@@ -5,6 +5,7 @@ import android.util.DisplayMetrics
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModel
 import com.example.academyfundamentalsproject.databinding.ActivityMainBinding
 import com.example.academyfundamentalsproject.main_list.FragmentMoviesList
 import com.example.academyfundamentalsproject.movie_detail.FragmentMoviesDetails

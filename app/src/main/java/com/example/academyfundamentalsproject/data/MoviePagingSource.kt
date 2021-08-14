@@ -2,6 +2,7 @@ package com.example.academyfundamentalsproject.data
 
 import android.util.SparseArray
 import androidx.paging.PagingSource
+import androidx.paging.PagingState
 import com.example.academyfundamentalsproject.network.TmdbConverter
 import com.example.academyfundamentalsproject.network.TmdbService
 import com.example.academyfundamentalsproject.repositories.domain.Movie
@@ -38,6 +39,9 @@ class MoviePagingSource(
         )
     }
 
+    override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
+        TODO("Not yet implemented")
+    }
 
 
 }

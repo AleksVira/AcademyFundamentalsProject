@@ -2,19 +2,22 @@
 buildscript {
 
     ext {
-        kotlin_version = '1.4.21'
-        lifecycle_version = '2.2.0'
-        paging3_version = '3.0.0-alpha12'
+        kotlin_version = '1.5.21'
+        lifecycle_version = '2.3.1'
+        recyclerview_version = '1.2.1'
+        paging3_version = '3.1.0-alpha03'
         coroutines_version = '1.4.2'
+        okhttp3_version = '4.9.1'
+        kotlinx_serialization_json_version = '1.2.2'
 
     }
 
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.2'
+        classpath 'com.android.tools.build:gradle:7.0.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
 
@@ -26,7 +29,7 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 }
 

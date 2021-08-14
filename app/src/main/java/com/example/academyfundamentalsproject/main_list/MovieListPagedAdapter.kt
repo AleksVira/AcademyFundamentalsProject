@@ -10,6 +10,8 @@ import com.example.academyfundamentalsproject.main_list.MovieItemDiffCallback.Co
 import com.example.academyfundamentalsproject.repositories.domain.Movie
 import timber.log.Timber
 
+//TODO Здесь некорректная реализация DiffUtil, потому что не должно использоваться notifyItemChanged() !!!
+
 
 class MovieListPagedAdapter(
     private val movieCardClickListener: (Movie) -> Unit,

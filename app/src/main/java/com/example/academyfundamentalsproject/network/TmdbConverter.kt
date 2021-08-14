@@ -76,7 +76,7 @@ class TmdbConverter {
     fun toSingleMovieInfo(movieResponse: MovieInfoResponse): SingleMovieInfo {
         return SingleMovieInfo(
             id = movieResponse.id ?: -1,
-            runtime = movieResponse.runtime ?: -1
+            runtime = movieResponse.runtime
         )
     }
 

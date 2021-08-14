@@ -2,6 +2,7 @@ package com.example.academyfundamentalsproject.network
 
 import com.example.academyfundamentalsproject.BuildConfig
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
@@ -25,6 +26,7 @@ object RetrofitModule {
         .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
         .build()
 
+    @ExperimentalSerializationApi
     private val retrofit: Retrofit = Retrofit.Builder()
         .client(httpClient)
         .baseUrl(BuildConfig.BASE_URL)
@@ -32,6 +34,7 @@ object RetrofitModule {
         .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
         .build()
 
+    @ExperimentalSerializationApi
     val tmdbService: TmdbService = retrofit.create(TmdbService::class.java)
 
 }
